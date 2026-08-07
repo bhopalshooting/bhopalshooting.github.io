@@ -1,0 +1,13 @@
+{
+  "name": "bhopalshooting",
+  "build": {
+    "dockerfile": "../Containerfile",
+    "args": {
+      "USERNAME": "${localEnv:USER}"
+    }
+  },
+  "remoteUser": "${localEnv:USER}",
+  "updateRemoteUserUID": true,
+  "shutdownAction": "stopContainer",
+  "appPort": ["5173:5173", "4173:4173"]
+}

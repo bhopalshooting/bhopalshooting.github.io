@@ -1,0 +1,5 @@
+storeDir: ~/.local/share/pnpm/store
+verifyDepsBeforeRun: false
+# esbuild's postinstall only unpacks its own platform binary, which vite needs.
+allowBuilds:
+  esbuild: true

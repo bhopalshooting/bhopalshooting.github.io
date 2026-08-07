@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-ssr/
+.pnpm-store/
+.DS_Store
+*.log
+.vite/
+.claude/settings.local.json
+.claude/artifacts/
