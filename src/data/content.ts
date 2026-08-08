@@ -228,6 +228,18 @@ const photos = {
     1500,
     'View from the firing points down the outdoor target range as athletes prepare their stations',
   ),
+  twentyFiveMetreAthlete: photo(
+    '25m-pistol-duelling-1',
+    1200,
+    1500,
+    'A pistol athlete aiming at a 25m target during competition',
+  ),
+  twentyFiveMetrePistol: photo(
+    '25m-pistol-duelling-2',
+    1200,
+    1500,
+    'A sport pistol resting on a firing-point towel beside the 25m range',
+  ),
   fiftyMetreRifle: photo(
     '50m-rifle-3-positions',
     1200,
@@ -331,12 +343,24 @@ export const disciplines: Discipline[] = [
   },
   {
     code: 'P3',
-    name: '25m Pistol',
+    name: '25mtr Pistol',
     detail: 'Precision and duelling stages',
-    image: photos.outdoorRange,
+    image: photos.twentyFiveMetreAthlete,
+  },
+  {
+    code: 'P4',
+    name: '25mtr Pistol',
+    detail: 'Precision and duelling stages',
+    image: photos.twentyFiveMetrePistol,
   },
   {
     code: 'P5',
+    name: '50mt Pistol',
+    detail: 'Olympic event',
+    image: photos.outdoorRange,
+  },
+  {
+    code: 'P6',
     name: '50m Pistol',
     detail: 'Free pistol · the long-range precision test',
     image: photos.freePistol,
