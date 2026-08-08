@@ -29,10 +29,11 @@ All build/dev commands are run inside the dev container if it's set up. If the u
 - Pin versions. Bump deliberately, never with `latest`.
 - Keep responses and docs as short as possible and to the point — no filler, no restating the request back, no over-explaining. Answer, then stop.
 
-## Content synchronization
+## Content source
 
-- `index.html` contains hardcoded SEO metadata and JSON-LD, including a duplicate of the visible FAQ content from `src/data/content.ts`. When FAQ, identity, location, credentials, contact details, domain or social image data changes, update `index.html` as well.
-- `sitemap.xml` and `llms.txt` are generated into `dist` by `scripts/prerender.mjs` from `src/data/content.ts`. Do not hand-write them into `public/` — the prerender step overwrites anything placed there.
+- `src/data/content.ts` is the single source for visible copy, SEO metadata, structured-data values and machine-readable content.
+- Vite's `transformIndexHtml` hook injects homepage metadata during development and build. `scripts/prerender.mjs` applies route-specific metadata and JSON-LD, then generates `sitemap.xml` and `llms.txt` in `dist`.
+- Keep `index.html` content-free. `CNAME`, `robots.txt` and `site.webmanifest` remain deployment configuration in `public/`.
 
 ## Checks
 

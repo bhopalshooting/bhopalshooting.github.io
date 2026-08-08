@@ -17,6 +17,14 @@ export type CredentialAsset = {
   hrefLabel: string
 }
 
+export type SocialImageAsset = {
+  src: string
+  width: number
+  height: number
+  type: string
+  alt: string
+}
+
 const photoWidths = [480, 768, 1200, 1800]
 
 const photo = (
@@ -47,8 +55,13 @@ export type PageMeta = {
   path: string
   title: string
   description: string
-  image: string
+  image: SocialImageAsset
   index: boolean
+}
+
+export const headCoach = {
+  name: 'Rishi Soni',
+  jobTitle: 'Head Pistol Shooting Coach',
 }
 
 // CLIENT-APPROVED — brand, location, offering and primary contact route.
@@ -67,6 +80,11 @@ export const site = {
   instagram: { handle: '@bhopalshootingrange', href: 'https://www.instagram.com/bhopalshootingrange/' },
   facebook: { handle: '/bhopalshootingrange', href: 'https://www.facebook.com/bhopalshootingrange/' },
   hours: 'Open daily · 5:00 am to 11:00 pm',
+  openingHours: {
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '05:00',
+    closes: '23:00',
+  },
   directions: 'https://www.google.com/maps/search/?api=1&query=Bhopal+Shooting+Range+Bairagarh',
   address: {
     lines: ['52 T Ward, opposite the TVS showroom', 'Dr Kurian Road, Bairagarh', 'Bhopal, Madhya Pradesh 462030'],
@@ -76,7 +94,28 @@ export const site = {
     postalCode: '462030',
     country: 'IN',
   },
-  sports: ['10m Air Pistol', '25m Pistol', '50m Pistol', '10m Air Rifle'],
+  sports: ['10m Air Pistol', '25m Pistol', '50m Pistol', '10 Meter Air Rifle', '50m Rifle 3 Positions'],
+}
+
+const socialImage: SocialImageAsset = {
+  src: '/og-image.jpg',
+  width: 1200,
+  height: 630,
+  type: 'image/jpeg',
+  alt: `Pistol and rifle shooters training at ${site.name} in Bairagarh`,
+}
+
+export const documentMetadata = {
+  language: 'en-IN',
+  themeColor: '#0e0f11',
+  openGraphLocale: 'en_IN',
+  openGraphType: 'website',
+  twitterCard: 'summary_large_image',
+}
+
+export const redirectDocument = {
+  title: 'Moved',
+  message: 'This page has moved to',
 }
 
 // Evidence for the claims on the site. Only the business profile is linked from
@@ -108,9 +147,8 @@ export const ui = {
   call: 'Call',
 }
 
-const trialMessage = encodeURIComponent(
-  "Hi, I'd like to book a trial session at Bhopal Shooting Range.",
-)
+const trialMessageText = `Hi, I'd like to book a trial session at ${site.name}.`
+const trialMessage = encodeURIComponent(trialMessageText)
 
 export const primaryCta = {
   label: 'Book a trial',
@@ -127,41 +165,41 @@ export const navigation = [
 export const pages: Record<PageKey, PageMeta> = {
   home: {
     path: '/',
-    title: 'Bhopal Shooting Range | Pistol & Rifle Coaching in Bhopal',
+    title: `${site.name} | Pistol & Rifle Coaching in Bhopal`,
     description:
-      'Pistol and rifle shooting academy in Bairagarh, Bhopal. Train with ISSF-certified coach Rishi Soni, an active national and Indian team squad trials competitor.',
-    image: '/og-image.jpg',
+      `Pistol and rifle shooting academy in Bairagarh, Bhopal. Train with ISSF-certified coach ${headCoach.name}, an active national and Indian team squad trials competitor.`,
+    image: socialImage,
     index: true,
   },
   about: {
     path: '/about/',
-    title: 'About the Range | Bhopal Shooting Range, Bairagarh',
+    title: `About the Range | ${site.name}, Bairagarh`,
     description:
       'A pistol and rifle shooting range in Bairagarh, Bhopal, open daily since 2021. See the firing line, the disciplines coached and how to visit.',
-    image: '/og-image.jpg',
+    image: socialImage,
     index: true,
   },
   coaches: {
     path: '/coaches/',
-    title: 'Our Coaches | Rishi Soni, ISSF-Certified Pistol Coach in Bhopal',
+    title: `Our Coaches | ${headCoach.name}, ISSF-Certified Pistol Coach in Bhopal`,
     description:
-      'Rishi Soni is the head pistol coach at Bhopal Shooting Range — ISSF-certified, NIS Patiala Grade A, and an active national competitor in 10m, 25m and 50m pistol.',
-    image: '/og-image.jpg',
+      `${headCoach.name} is the head pistol coach at ${site.name} — ISSF-certified, NIS Patiala Grade A, and an active national competitor in 10m, 25m and 50m pistol.`,
+    image: socialImage,
     index: true,
   },
   contact: {
     path: '/contact/',
-    title: 'Book a Trial | Bhopal Shooting Range, Bairagarh',
+    title: `Book a Trial | ${site.name}, Bairagarh`,
     description:
-      'Book a pistol or rifle trial session at Bhopal Shooting Range in Bairagarh, Bhopal. Message on WhatsApp or call +91 78691 39088.',
-    image: '/og-image.jpg',
+      `Book a pistol or rifle trial session at ${site.name} in Bairagarh, Bhopal. Message on WhatsApp or call ${site.phoneDisplay}.`,
+    image: socialImage,
     index: true,
   },
   notFound: {
     path: '/404/',
-    title: 'Page Not Found | Bhopal Shooting Range',
+    title: `Page Not Found | ${site.name}`,
     description: 'The requested page could not be found.',
-    image: '/og-image.jpg',
+    image: socialImage,
     index: false,
   },
 }
@@ -184,11 +222,17 @@ const photos = {
     800,
     'Electronic scoring unit and paper targets along the 10m firing line at Bhopal Shooting Range',
   ),
-  fiftyMetreRange: photo(
+  outdoorRange: photo(
     '50m-shooting-range',
     1200,
     1500,
-    'View from the firing points down the 50m outdoor target range as athletes prepare their stations',
+    'View from the firing points down the outdoor target range as athletes prepare their stations',
+  ),
+  fiftyMetreRifle: photo(
+    '50m-rifle-3-positions',
+    1200,
+    1500,
+    'A rifle athlete in a shooting jacket aiming from the 50m firing point toward the outdoor targets',
   ),
   freePistol: photo(
     '50m-free-pistol',
@@ -265,22 +309,11 @@ const photos = {
   ),
 }
 
-/**
- * The discipline carousel.
- *
- * TODO: waiting on photography. Every slide marked `standIn` currently shows a
- * picture of a different event, because the range only has 10m footage on file.
- * When the real frames arrive (shooter on the line, event equipment visible),
- * add them to `public/photos/` at the four widths, point the slide at the new
- * asset and delete its `standIn` flag. Three of the six are outstanding: 25m
- * standard, 25m sports and 25m rapid fire.
- */
 export type Discipline = {
   code: string
   name: string
   detail: string
   image: ImageAsset
-  standIn?: true
 }
 
 export const disciplines: Discipline[] = [
@@ -292,24 +325,15 @@ export const disciplines: Discipline[] = [
   },
   {
     code: 'P2',
-    name: '25m Standard Pistol',
-    detail: '150 seconds, 20 seconds, 10 seconds',
+    name: '10m Air Pistol (ISSF)',
+    detail: 'Olympic event · 60 shots',
     image: photos.pistolSquad,
-    standIn: true,
   },
   {
     code: 'P3',
-    name: '25m Sports Pistol',
+    name: '25m Pistol',
     detail: 'Precision and duelling stages',
-    image: photos.rishiShooting,
-    standIn: true,
-  },
-  {
-    code: 'P4',
-    name: '25m Rapid Fire Pistol',
-    detail: 'Olympic event · five targets, 8 to 4 seconds',
-    image: photos.rishiWithAthlete,
-    standIn: true,
+    image: photos.outdoorRange,
   },
   {
     code: 'P5',
@@ -321,7 +345,13 @@ export const disciplines: Discipline[] = [
     code: 'R1',
     name: '50m Rifle 3 Positions',
     detail: 'Kneeling, prone and standing',
-    image: photos.fiftyMetreRange,
+    image: photos.fiftyMetreRifle,
+  },
+  {
+    code: 'R2',
+    name: '10 Meter Air Rifle',
+    detail: 'Olympic event · 60 shots',
+    image: photos.rifleAthletes,
   },
 ]
 
@@ -487,7 +517,7 @@ export const home = {
       {
         question: 'Do you coach rifle as well?',
         answer:
-          'Yes. Air rifle is coached at the range and rifle shooters train here regularly. Pistol is what we are known for and where the deepest coaching sits.',
+          'Yes. The range coaches 10 metre air rifle and 50m Rifle 3 Positions. Pistol is what we are known for and where the deepest coaching sits.',
       },
       {
         question: 'What is the right age to start?',
@@ -526,7 +556,7 @@ export const about = {
     title: 'Bhopal had rifle ranges. Pistol shooters had nowhere to go.',
     body: [
       'Pistol is the harder sell. It needs more coaching time, more patience and a coach who actually shoots it. Most ranges treat it as an add-on, so pistol shooters in Bhopal either travelled or gave up.',
-      'This range was built the other way round. Pistol is the centre of the coaching, across 10m, 25m and 50m events, with air rifle coached alongside for shooters who want it.',
+      'This range was built the other way round. Pistol is the centre of the coaching, across 10m, 25m and 50m events, with 10m and 50m rifle coached alongside.',
     ],
   },
   values: {
@@ -593,7 +623,7 @@ export const coaches = {
       'MPSRA Certified Coach — Grade A',
       'National competitor for Madhya Pradesh, 2022 to 2026',
       'Indian Team Selection Trials participant',
-      'Coaches 10m, 25m and 50m pistol, plus air rifle',
+      'Coaches 10m, 25m and 50m pistol, plus 10m and 50m rifle',
     ],
     image: photos.rishiMedal,
   },
@@ -699,7 +729,7 @@ export const contact = {
   form: {
     title: 'Book a trial on WhatsApp',
     intro: 'Fill this in and it opens a message to the range with your details already written.',
-    messageIntro: "Hi, I'd like to book a trial session at Bhopal Shooting Range.",
+    messageIntro: trialMessageText,
     messageLabels: {
       name: 'Name',
       age: 'Age',
@@ -715,7 +745,7 @@ export const contact = {
       level: 'Current level',
       goal: 'What would you like to achieve?',
     },
-    disciplines: ['Not sure yet', '10m Air Pistol', '25m Pistol', '50m Pistol', '10m Air Rifle'],
+    disciplines: ['Not sure yet', '10m Air Pistol', '25m Pistol', '50m Pistol', '10 Meter Air Rifle', '50m Rifle 3 Positions'],
     levels: ['Never shot before', 'Shoot for fun', 'Training regularly', 'Competing already', 'Asking for my child'],
     submit: 'Continue on WhatsApp',
   },
@@ -750,7 +780,7 @@ export const footer = {
   statement: 'Pistol and rifle shooting coaching in Bairagarh, Bhopal.',
   exploreLabel: 'Explore',
   startLabel: 'Start here',
-  legal: `© ${new Date().getFullYear()} Bhopal Shooting Range`,
+  legal: `© ${new Date().getFullYear()} ${site.name}`,
 }
 
 export const notFound = {
@@ -762,16 +792,15 @@ export const notFound = {
 
 export const machineReadable = {
   summary:
-    'A pistol and rifle shooting academy in Bairagarh, Bhopal, led by ISSF-certified coach and national and Indian team squad trials competitor Rishi Soni.',
+    `A pistol and rifle shooting academy in Bairagarh, Bhopal, led by ISSF-certified coach and national and Indian team squad trials competitor ${headCoach.name}.`,
   addressLabel: 'Address',
   phoneLabel: 'Phone and WhatsApp',
   hoursLabel: 'Opening hours',
   coachLabel: 'Head coach',
-  coachName: 'Rishi Soni',
+  coachName: headCoach.name,
   notesTitle: 'Notes',
   notes: [
-    'Bhopal Shooting Range is a private academy and is separate from the Madhya Pradesh State Shooting Academy of Excellence.',
+    `${site.name} is a private academy and is separate from the Madhya Pradesh State Shooting Academy of Excellence.`,
     'Current fees and batch timings should be confirmed directly with the academy on WhatsApp.',
   ],
 }
-

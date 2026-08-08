@@ -1,7 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="#e8e6e1"/>
-  <circle cx="16" cy="16" r="12" fill="#0e0f11"/>
-  <circle cx="16" cy="16" r="8" fill="none" stroke="#e8e6e1" stroke-width="1"/>
-  <circle cx="16" cy="16" r="4" fill="none" stroke="#e8e6e1" stroke-width="1"/>
-  <circle cx="16" cy="16" r="1.6" fill="#dc4b43"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <image width="64" height="64" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAMFBMVEUODxEfICFfYGEeHyCOj5D7+/txcnPNzc2urq9NTk8tLS/f3+Cen6A+P0F/f4C/v8AzUzWEAAACsklEQVRYw+1WR4KrMAzFTZIL+fe/7beKKUMgZLKZRbSIA0jPKs+Sp+krf12c9+EjgJgSfGIfMCX6GCD8LgiXgaJjgEIE2b1pXgBrSlgYIKeUKkJ5Z3fohmkBqPoAt73Iap5qsxAUIWG+lzgQ/Uq+BK1CKKAYFW7kM0TdfF6qIH9yE4j4EkHt1dlSBMAVtwb2EkHsG2d8jkiWRIz8ojRBuLb3Y5cS67YKlSEcI1R/Zc8GYq/+rjzQqEKTlxcArEA9Yi8Zw4eWMWoJ8tjgggDs7Gz2tXPPqqAQjCAa+dKBjj/XpRCjjBISO89JbqcZkLxNgUakhTlV5RQM51mnnmUBVMebvXsMCsO0Os8unPUYUhVSFS4aRoCIWhiDz+cxSARuLLyV8Gdy2tc4iO48Fwafn8t+6tjZjIheXF7qFSWkR62c2diXp0kIrnRx8tuXuNmn7wr9c86Zv+c8uycnAgh3UreEib0l7eWQx2IZ38hGxx8+HkpZ8KDjrwCOafC0l58h7L+2Z3R2nKTuiy6PfRI98xKYlFmXEx5EpRzI07aMTk+K8uyEywVXIhVhXnRGJO4i9l6Wk77WlMrNKvDgU+B9nxEVJj0EdlLOjuNg+zjz3ipD8mDHsO3rc0jC0EFu646tUOaijCfQ9bypmZfCCZRtrKEE6VHklp5zInNdG5c0YptMuQ3u+HTRT8wF1tOmXFvZzEYOSny7urKIAjGbSBvx2tbbeEuXQ1qcZwSZ8CsA8l1L7OuLEQ3JEDpzCWcBwD6oJ4vrejCNNHQCMdeCk8ESlI+gw+KVffdBUkaezZbxXpRUd+zHXOsduTcw8aDkaFeel/5bLWjpGlLG0Wva7XtW8ApR87/1kkX3bkgmzlNdANiXlt++bhYfjYkt+ncuibtYPr0r8+GLHwEUeOuK+5Wv/Fr+A5+uIEqs3K2cAAAAAElFTkSuQmCC" />
 </svg>

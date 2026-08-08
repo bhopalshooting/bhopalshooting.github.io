@@ -1,6 +1,13 @@
 import { renderToString } from 'react-dom/server'
 import App from './App'
-import { machineReadable, pages, site, type PageMeta } from './data/content'
+import {
+  documentMetadata,
+  machineReadable,
+  pages,
+  redirectDocument,
+  site,
+  type PageMeta,
+} from './data/content'
 import { getStructuredData } from './data/schema'
 import { redirects, resolvePageKey, routeKeys } from './routes'
 
@@ -21,7 +28,12 @@ export function getRedirects() {
 }
 
 export function getSiteContent() {
-  return { machineReadable, site }
+  return {
+    documentMetadata,
+    machineReadable,
+    redirectDocument,
+    site,
+  }
 }
 
 export { getStructuredData }

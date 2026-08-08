@@ -151,10 +151,25 @@ for (const [file, doc] of documents) {
     fail(file, `canonical ${canonical} does not match where the page is served`)
   }
 
-  for (const property of ['og:title', 'og:description', 'og:url', 'og:image']) {
+  for (const property of [
+    'og:type',
+    'og:locale',
+    'og:site_name',
+    'og:title',
+    'og:description',
+    'og:url',
+    'og:image',
+    'og:image:width',
+    'og:image:height',
+    'og:image:type',
+    'og:image:alt',
+  ]) {
     if (!doc.querySelector(`meta[property="${property}"]`)?.getAttribute('content')) {
       fail(file, `no ${property}`)
     }
+  }
+  for (const name of ['theme-color', 'twitter:card', 'twitter:title', 'twitter:description', 'twitter:image']) {
+    if (!doc.querySelector(`meta[name="${name}"]`)?.getAttribute('content')) fail(file, `no ${name}`)
   }
 
   const robots = doc.querySelector('meta[name="robots"]')?.getAttribute('content') ?? ''
@@ -225,6 +240,11 @@ else if (!robotsTxt.includes(`${origin}/sitemap.xml`)) {
   fail('robots.txt', `does not point at ${origin}/sitemap.xml`)
 }
 
+const cname = distFiles.has('CNAME') ? (await readFile(join(dist, 'CNAME'), 'utf8')).trim() : ''
+if (cname !== new URL(origin).hostname) {
+  fail('CNAME', `is "${cname}", expected "${new URL(origin).hostname}"`)
+}
+
 if (!distFiles.has('site.webmanifest')) fail('site.webmanifest', 'was not shipped')
 else {
   const manifest = JSON.parse(await readFile(join(dist, 'site.webmanifest'), 'utf8'))
@@ -233,6 +253,10 @@ else {
   }
   if (manifest.name !== siteName) {
     fail('site.webmanifest', `name is "${manifest.name}", but og:site_name is "${siteName}"`)
+  }
+  const themeColor = home.querySelector('meta[name="theme-color"]')?.getAttribute('content')
+  if (manifest.theme_color !== themeColor || manifest.background_color !== themeColor) {
+    fail('site.webmanifest', 'theme colours do not match the document metadata')
   }
 }
 

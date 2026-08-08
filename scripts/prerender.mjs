@@ -8,7 +8,12 @@ const templatePath = resolve(dist, 'index.html')
 const serverEntry = resolve(root, 'dist-ssr/entry-server.js')
 const { getPageMeta, getRedirects, getRoutes, getSiteContent, getStructuredData, render } = await import(pathToFileURL(serverEntry).href)
 const template = await readFile(templatePath, 'utf8')
-const { machineReadable, site } = getSiteContent()
+const {
+  documentMetadata,
+  machineReadable,
+  redirectDocument,
+  site,
+} = getSiteContent()
 const origin = site.canonicalOrigin
 
 const escapeAttribute = (value) =>
@@ -22,21 +27,30 @@ function replaceMeta(html, attribute, key, value) {
 function renderDocument(pathname) {
   const meta = getPageMeta(pathname)
   const canonical = new URL(meta.path, origin).toString()
-  const image = new URL(meta.image, origin).toString()
+  const image = new URL(meta.image.src, origin).toString()
   const schema = JSON.stringify(getStructuredData(pathname)).replaceAll('<', '\\u003c')
   let html = template
+    .replace(/<html\s+lang="[^"]*"/i, `<html lang="${escapeAttribute(documentMetadata.language)}"`)
     .replace(/<title>.*?<\/title>/s, `<title>${escapeAttribute(meta.title)}</title>`)
     .replace(/<link\s+rel="canonical"[^>]*>/i, `<link rel="canonical" href="${canonical}" />`)
     .replace('<!--app-jsonld-->', `<script type="application/ld+json">${schema}</script>`)
     .replace('<div id="root"></div>', `<div id="root">${render(pathname)}</div>`)
 
+  html = replaceMeta(html, 'name', 'theme-color', documentMetadata.themeColor)
   html = replaceMeta(html, 'name', 'description', meta.description)
   html = replaceMeta(html, 'name', 'robots', meta.index ? 'index,follow' : 'noindex,follow')
+  html = replaceMeta(html, 'property', 'og:type', documentMetadata.openGraphType)
+  html = replaceMeta(html, 'property', 'og:locale', documentMetadata.openGraphLocale)
+  html = replaceMeta(html, 'property', 'og:site_name', site.name)
   html = replaceMeta(html, 'property', 'og:title', meta.title)
   html = replaceMeta(html, 'property', 'og:description', meta.description)
   html = replaceMeta(html, 'property', 'og:url', canonical)
   html = replaceMeta(html, 'property', 'og:image', image)
-  html = replaceMeta(html, 'property', 'og:image:alt', meta.title)
+  html = replaceMeta(html, 'property', 'og:image:width', meta.image.width)
+  html = replaceMeta(html, 'property', 'og:image:height', meta.image.height)
+  html = replaceMeta(html, 'property', 'og:image:type', meta.image.type)
+  html = replaceMeta(html, 'property', 'og:image:alt', meta.image.alt)
+  html = replaceMeta(html, 'name', 'twitter:card', documentMetadata.twitterCard)
   html = replaceMeta(html, 'name', 'twitter:title', meta.title)
   html = replaceMeta(html, 'name', 'twitter:description', meta.description)
   html = replaceMeta(html, 'name', 'twitter:image', image)
@@ -61,15 +75,15 @@ for (const [from, to] of Object.entries(getRedirects())) {
   await writeFile(
     output,
     `<!doctype html>
-<html lang="en-IN">
+<html lang="${escapeAttribute(documentMetadata.language)}">
   <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="noindex,follow" />
     <link rel="canonical" href="${target}" />
     <meta http-equiv="refresh" content="0; url=${target}" />
-    <title>Moved | ${escapeAttribute(site.name)}</title>
+    <title>${escapeAttribute(redirectDocument.title)} | ${escapeAttribute(site.name)}</title>
   </head>
-  <body><p>This page has moved to <a href="${target}">${target}</a>.</p></body>
+  <body><p>${escapeAttribute(redirectDocument.message)} <a href="${target}">${target}</a>.</p></body>
 </html>
 `,
   )

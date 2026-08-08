@@ -1,4 +1,13 @@
-import { coaches, disciplines, home, pages, publicResearchSources, site } from './content'
+import {
+  coaches,
+  disciplines,
+  headCoach,
+  home,
+  navigation,
+  pages,
+  publicResearchSources,
+  site,
+} from './content'
 import { resolvePageKey } from '../routes'
 
 const origin = site.canonicalOrigin
@@ -28,9 +37,9 @@ const academy = {
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    opens: '05:00',
-    closes: '23:00',
+    dayOfWeek: site.openingHours.dayOfWeek,
+    opens: site.openingHours.opens,
+    closes: site.openingHours.closes,
   },
   sport: site.sports,
 }
@@ -38,9 +47,9 @@ const academy = {
 const rishi = {
   '@type': 'Person',
   '@id': `${origin}/coaches/#rishi-soni`,
-  name: 'Rishi Soni',
-  jobTitle: 'Head Pistol Shooting Coach',
-  url: `${origin}/coaches/`,
+  name: headCoach.name,
+  jobTitle: headCoach.jobTitle,
+  url: absolute(pages.coaches.path),
   worksFor: { '@id': `${origin}/#academy` },
   knowsAbout: disciplines.map((item) => item.name),
   hasCredential: coaches.credentials.documents.map((document) => ({
@@ -48,12 +57,6 @@ const rishi = {
     name: document.title,
     credentialCategory: document.issuer,
   })),
-}
-
-const breadcrumbs: Record<string, string> = {
-  '/about/': 'About',
-  '/coaches/': 'Coaches',
-  '/contact/': 'Contact',
 }
 
 function faqSchema(items: { question: string; answer: string }[]) {
@@ -71,6 +74,8 @@ export function getStructuredData(pathname: string) {
   const key = resolvePageKey(pathname)
   const meta = pages[key]
   const canonical = absolute(meta.path)
+  const homeBreadcrumbName = navigation.find((item) => item.href === pages.home.path)?.label
+  const breadcrumbName = navigation.find((item) => item.href === meta.path)?.label
   const graph: Record<string, unknown>[] = [
     academy,
     {
@@ -98,8 +103,8 @@ export function getStructuredData(pathname: string) {
     graph.push({
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
-        { '@type': 'ListItem', position: 2, name: breadcrumbs[meta.path], item: canonical },
+        { '@type': 'ListItem', position: 1, name: homeBreadcrumbName, item: absolute(pages.home.path) },
+        { '@type': 'ListItem', position: 2, name: breadcrumbName, item: canonical },
       ],
     })
   }
