@@ -1,9 +1,18 @@
-node_modules/
-dist/
-dist-ssr/
-.pnpm-store/
+# --- secrets: never commit ---------------------------------------------
+deploy.txt
+*credentials*
+*password*
+*.env
+
+# --- working files, not part of the published site ---------------------
+requirements.txt.txt
+Theme.jpg
+
+# --- OS / editor cruft --------------------------------------------------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 .DS_Store
-*.log
-.vite/
-.claude/settings.local.json
-.claude/artifacts/
+.vscode/
+.idea/

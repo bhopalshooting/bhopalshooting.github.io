@@ -1,32 +1,865 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--app-jsonld-->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="preload" href="/fonts/bodoni-moda-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/source-serif-4-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <script>
-      ;(function () {
-        try {
-          var stored = localStorage.getItem('theme')
-          document.documentElement.dataset.theme =
-            stored === 'light' || stored === 'dark'
-              ? stored
-              : matchMedia('(prefers-color-scheme: light)').matches
-                ? 'light'
-                : 'dark'
-        } catch (e) {
-          document.documentElement.dataset.theme = 'dark'
-        }
-      })()
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bhopal Shooting Range — Professional Pistol &amp; Rifle Shooting Coaching in Bhopal</title>
+<meta name="description" content="Bhopal Shooting Range offers professional pistol and rifle shooting coaching in Bhopal across Olympic and ISSF events, led by ISSF-certified head coach Rishi Soni.">
+<link rel="icon" href="images/Bhopal%20shooting%20Range%20LOGO.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================ header -->
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <a class="brand" href="index.html">
+      <img class="brand__mark" src="images/Bhopal%20shooting%20Range%20LOGO.jpeg" alt="Bhopal Shooting Range logo">
+      <span>
+        <span class="brand__name">Bhopal</span>
+        <span class="brand__sub">Shooting Range</span>
+        <span class="brand__tag">Aim &middot; Focus &middot; Achieve</span>
+      </span>
+    </a>
+
+    <button class="navtoggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">&#9776;</button>
+
+    <nav class="nav" id="primary-nav">
+      <a href="index.html" class="is-active">Home</a>
+      <a href="#about">About</a>
+      <a href="#events">Programs</a>
+      <a href="#coach">Coach</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#news">News</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--gold nav__cta" href="#book">Book a Session</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================== hero -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <p class="hero__eyebrow">Welcome to</p>
+      <h1>Bhopal<br>Shooting Range</h1>
+      <p class="hero__lead">Precision today. Champion tomorrow.</p>
+      <p class="hero__copy">
+        Professional pistol and rifle shooting coaching in Bhopal — Olympic and ISSF
+        events, modern training methods and an environment built to develop
+        disciplined, confident, championship-ready athletes.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--gold" href="#events">Explore Programs <span class="arrow">&rarr;</span></a>
+        <a class="btn btn--ghost" href="#book">Book a Session</a>
+      </div>
+    </div>
+
+    <figure class="hero__media">
+      <img src="images/rishi-soni-shooting.webp" alt="Head coach Rishi Soni on the 10 m air pistol firing line">
+    </figure>
+  </div>
+
+  <div class="hero__strip">
+    <div class="wrap">
+      <div class="feat">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg>
+        <span><b>Certified Coaches</b><span>ISSF, NRAI &amp; NIS qualified coaching staff</span></span>
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M6 9h4M6 13h6M16 8v8"/></svg>
+        <span><b>Modern Range</b><span>Electronic SIUS targets &amp; regulation lanes</span></span>
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 20V10M12 20V4M18 20v-7"/><path d="M3 20h18"/></svg>
+        <span><b>Proven Results</b><span>State &amp; national podium finishes</span></span>
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+        <span><b>Personal Training</b><span>Individual plans &amp; scientific approach</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= about -->
+<section class="section" id="about">
+  <div class="wrap about reveal">
+    <figure class="about__figure">
+      <img src="images/rifle-athletes.webp" alt="Air rifle athletes training at Bhopal Shooting Range">
+      <figcaption class="about__badge">
+        <b>2021</b><span>Established</span>
+      </figcaption>
+    </figure>
+
+    <div>
+      <p class="eyebrow">About the Range</p>
+      <h2>Shaping Focus.<br>Building Champions.</h2>
+      <hr class="rule">
+      <p>
+        Bhopal Shooting Range is a premier destination for aspiring and competitive
+        shooters in Bhopal. Our shared vision is to create a professional, disciplined and
+        welcoming environment where shooters of all ages can develop their skills with confidence.
+      </p>
+      <p>
+        With a strong commitment to excellence, we focus on quality coaching, modern training
+        methods and personalised guidance to help every athlete achieve their full potential.
+        Bhopal Shooting Range has earned a reputation for nurturing beginners as well as
+        competitive shooters with dedication, integrity and passion for the sport.
+      </p>
+
+      <div class="owners">
+        <h3>Range Owners &mdash; Jyoti Soni &amp; Richa Raghuwanshi</h3>
+        <p>
+          Jyoti Soni and Richa Raghuwanshi are the proud owners of Bhopal Shooting Range. Under
+          their leadership the range has grown into a disciplined, athlete-first training centre
+          for the shooting community of Madhya Pradesh.
+        </p>
+      </div>
+
+      <p style="margin-top:1.8rem">
+        <a class="textlink" href="#coach">Meet our head coach <span class="arrow">&rarr;</span></a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ events -->
+<section class="section section--paper-alt" id="events">
+  <div class="wrap">
+    <div class="head head--center reveal">
+      <p class="eyebrow">Our Programs</p>
+      <h2>Professional Pistol &amp; Rifle Shooting Coaching in Bhopal</h2>
+      <hr class="rule">
+      <p>Structured coaching across the full range of Olympic and ISSF pistol and rifle events —
+         from your first pellet to national selection trials.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Shooting event categories">
+      <button class="tab" role="tab" id="tab-olympic" aria-controls="panel-olympic" aria-selected="true" tabindex="0">Olympic Events</button>
+      <button class="tab" role="tab" id="tab-issf" aria-controls="panel-issf" aria-selected="false" tabindex="-1">ISSF Events</button>
+    </div>
+
+    <!-- ---- Olympic ---- -->
+    <div class="tabpanel" role="tabpanel" id="panel-olympic" aria-labelledby="tab-olympic">
+      <div class="eventgrid">
+        <article class="event reveal">
+          <div class="event__img">
+            <img src="images/AP%2010mtr.webp" alt="10 m air pistol on the firing point at Bhopal Shooting Range">
+            <span class="event__tag">Olympic</span>
+          </div>
+          <div class="event__body">
+            <h3>10 m Air Pistol</h3>
+            <p>The cornerstone precision event. Grip, stance, trigger release and shot-process discipline built from the ground up.</p>
+            <p class="event__meta">Men &middot; Women &middot; Mixed Team</p>
+          </div>
+        </article>
+
+        <article class="event reveal">
+          <div class="event__img">
+            <img src="images/10mtr%20air%20rifle-athletes.webp" alt="Two athletes training in 10 m air rifle">
+            <span class="event__tag">Olympic</span>
+          </div>
+          <div class="event__body">
+            <h3>10 m Air Rifle</h3>
+            <p>Standing rifle precision with emphasis on position building, natural point of aim and hold control.</p>
+            <p class="event__meta">Men &middot; Women &middot; Mixed Team</p>
+          </div>
+        </article>
+
+        <article class="event reveal">
+          <div class="event__img">
+            <img src="images/25mtr%20Pistol.webp" alt="Shooter on the 25 m pistol range with turning targets">
+            <span class="event__tag">Olympic</span>
+          </div>
+          <div class="event__body">
+            <h3>25 m Rapid Fire Pistol</h3>
+            <p>Five targets, shrinking time limits. Rhythm, recoil recovery and target-to-target transition under pressure.</p>
+            <p class="event__meta">Men</p>
+          </div>
+        </article>
+
+        <article class="event reveal">
+          <div class="event__img">
+            <img src="images/25m-pistol%20weapon.webp" alt="25 m sports pistol at the range">
+            <span class="event__tag">Olympic</span>
+          </div>
+          <div class="event__body">
+            <h3>25 m Sports Pistol</h3>
+            <p>The precision and rapid-fire combination event, coached as two distinct skill sets inside one match plan.</p>
+            <p class="event__meta">Women</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- ---- ISSF ---- -->
+    <div class="tabpanel" role="tabpanel" id="panel-issf" aria-labelledby="tab-issf" hidden>
+      <div class="eventgrid">
+        <article class="event">
+          <div class="event__img">
+            <img src="images/25m-pistol%20weapon.webp" alt="25 m standard pistol at the range">
+            <span class="event__tag">ISSF</span>
+          </div>
+          <div class="event__body">
+            <h3>25 m Standard Pistol</h3>
+            <p>150, 20 and 10-second stages — timing discipline, consistent lift and a repeatable hold-and-release routine.</p>
+            <p class="event__meta">Men &middot; Women</p>
+          </div>
+        </article>
+
+        <article class="event">
+          <div class="event__img">
+            <img src="images/25mtr%20Pistol.webp" alt="25 m centre fire pistol range with turning targets">
+            <span class="event__tag">ISSF</span>
+          </div>
+          <div class="event__body">
+            <h3>25 m Centre Fire Pistol</h3>
+            <p>Precision plus duel stages with centre fire calibre — recoil management and follow-through under match load.</p>
+            <p class="event__meta">Men</p>
+          </div>
+        </article>
+
+        <article class="event">
+          <div class="event__img">
+            <img src="images/50m-free-pistol.webp" alt="50 m free pistol">
+            <span class="event__tag">ISSF</span>
+          </div>
+          <div class="event__body">
+            <h3>50 m Free Pistol</h3>
+            <p>The purest test of pistol marksmanship. Long-range sight picture, patience and shot-by-shot decision making.</p>
+            <p class="event__meta">Men &middot; Women</p>
+          </div>
+        </article>
+
+        <article class="event">
+          <div class="event__img">
+            <img src="images/50m-rifle-3-positions.webp" alt="50 m rifle three positions on the outdoor range">
+            <span class="event__tag">ISSF</span>
+          </div>
+          <div class="event__body">
+            <h3>50 m Rifle 3 Positions</h3>
+            <p>Kneeling, prone and standing — position technique, equipment fitting and stamina across the full course of fire.</p>
+            <p class="event__meta">Men &amp; Women</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== competitive coach -->
+<section class="section section--navy" id="competitive">
+  <div class="wrap coaching">
+    <figure class="coaching__figure reveal">
+      <img src="images/AP%20Training%20image.webp" alt="Air pistol athletes training under coach supervision">
+    </figure>
+
+    <div class="reveal">
+      <p class="eyebrow">Competitive Shooter Performance Program</p>
+      <h2>What Competitive Coaching Includes</h2>
+      <hr class="rule">
+      <p style="color:rgba(255,255,255,.72);max-width:56ch">
+        Built for shooters who are chasing state, national and selection-trial results — technical
+        work on the line paired with the mental skills that decide finals.
+      </p>
+
+      <div class="pillars">
+        <div class="pillar">
+          <span class="pillar__no">01</span>
+          <h3>Personal Coaching</h3>
+          <ul class="ticklist">
+            <li>10 m Air Pistol</li>
+            <li>25 m Sports Pistol</li>
+            <li>50 m Free Pistol</li>
+            <li>Match preparation</li>
+          </ul>
+        </div>
+
+        <div class="pillar">
+          <span class="pillar__no">02</span>
+          <h3>Mental-Performance Coaching</h3>
+          <ul class="ticklist">
+            <li>Competition anxiety</li>
+            <li>Match routine</li>
+            <li>Focus</li>
+            <li>Visualization</li>
+            <li>Shot-process discipline</li>
+            <li>Pre-match preparation</li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="margin-top:2rem">
+        <a class="btn btn--gold" href="#book">Enquire About Competitive Coaching <span class="arrow">&rarr;</span></a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= coach -->
+<section class="section" id="coach">
+  <div class="wrap coachhero reveal">
+    <figure class="coachhero__img">
+      <img src="images/rishi-soni-shooting.webp" alt="Rishi Soni shooting air pistol in India Shooting team kit">
+    </figure>
+
+    <div>
+      <p class="eyebrow">Head Coach</p>
+      <h2>Rishi Soni</h2>
+      <hr class="rule">
+      <p>
+        Rishi Soni is the Coach at Bhopal Shooting Range, bringing extensive competitive
+        and coaching experience to the range. A highly accomplished pistol shooter and coach, he
+        has earned recognition for his performances across multiple pistol disciplines and for his
+        commitment to developing the next generation of shooting athletes.
+      </p>
+      <p>
+        From 2022 to 2025 he competed at national level in all ISSF pistol disciplines,
+        establishing himself as a respected and well-known shooter within the Indian shooting
+        community. He continues to participate in the Indian Team Selection Trials, demonstrating
+        ongoing dedication to high-performance competition while mentoring aspiring shooters.
+      </p>
+
+      <ul class="timeline" style="margin-top:2rem">
+        <li>
+          <b>Indian Team Selection Trials &mdash; participant</b>
+          <span>2022 &ndash; present</span>
+        </li>
+        <li>
+          <b>National competitor for Madhya Pradesh</b>
+          <span>2021 &ndash; present</span>
+        </li>
+        <li style="padding-bottom:0">
+          <b>National-level competition in all ISSF pistol disciplines</b>
+          <span>2022 &ndash; 2025</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= credentials -->
+<section class="section section--paper-alt">
+  <div class="wrap">
+    <div class="head head--center reveal">
+      <p class="eyebrow">Coaching Credentials</p>
+      <h2>The Highest Standards of Professional Excellence</h2>
+      <hr class="rule">
+    </div>
+
+    <div class="creds reveal" style="max-width:900px;margin-inline:auto">
+      <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg> ISSF A Certified Coach</div>
+      <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg> ISSF B Certified Coach</div>
+      <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg> ISSF C Certified Coach</div>
+      <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg> ISSF D Certified Coach</div>
+      <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg> NIS Patiala &mdash; Grade A</div>
+      <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg> MPSRA Certified Coach &mdash; Grade A</div>
+      <div class="cred" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg> NRAI Certified Coach &mdash; Grade A</div>
+    </div>
+
+    <p style="max-width:70ch;margin:2.6rem auto 3rem;text-align:center;color:var(--ink-soft)">
+      Combining elite competitive experience with internationally recognised coaching
+      qualifications, Rishi Soni follows a scientific and athlete-centred approach to training. His
+      emphasis on technical precision, mental conditioning and individualised coaching has helped
+      numerous shooters excel at state and national-level competitions. His mission is to nurture
+      disciplined, confident and championship-ready athletes capable of competing at the highest
+      levels of the sport.
+    </p>
+
+    <div class="head head--center reveal" style="margin-bottom:2rem">
+      <p class="eyebrow">Certificates &amp; Licences</p>
+      <h3 style="font-size:1.4rem">Verified Qualifications</h3>
+    </div>
+
+    <div class="gallery reveal">
+      <img src="images/issf-coaches-license-d.webp" alt="ISSF coaches licence — D level" loading="lazy">
+      <img src="images/issf-d-diploma.webp" alt="ISSF D diploma" loading="lazy">
+      <img src="images/rishi-soni-issf-certificate.webp" alt="ISSF certificate awarded to Rishi Soni" loading="lazy">
+      <img src="images/nrai-coaches-course.webp" alt="NRAI coaches course certificate" loading="lazy">
+      <img src="images/nis-patiala-coaching.webp" alt="NIS Patiala coaching course" loading="lazy">
+      <img src="images/issf-b-coaches-course-group%20picture.webp" alt="ISSF B coaches course group photograph" loading="lazy">
+      <img src="images/rishi-soni-army-marksmanship-unit.webp" alt="Rishi Soni at the Army Marksmanship Unit" loading="lazy">
+      <img src="images/rishi-soni-with-esha.webp" alt="Rishi Soni with fellow shooter Esha" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= stats -->
+<section class="statband">
+  <div class="wrap">
+    <div class="stat"><b>500+</b><span>Shooters Trained</span></div>
+    <div class="stat"><b>250+</b><span>Medals Won</span></div>
+    <div class="stat"><b>50+</b><span>National-Level Athletes</span></div>
+    <div class="stat"><b>7</b><span>Coaching Certifications</span></div>
+    <div class="stat"><b>Bhopal</b><span>Madhya Pradesh, India</span></div>
+  </div>
+</section>
+
+<!-- ====================================================== achievements -->
+<section class="section" id="achievements">
+  <div class="wrap">
+    <div class="head head--center reveal">
+      <p class="eyebrow">Athlete Results</p>
+      <h2>Achievements on the Firing Line</h2>
+      <hr class="rule">
+      <p>
+        Results from our shooters across national, state and district championships —
+        athlete, event, competition, year and result.
+        <span class="placeholder-note">Placeholder data</span>
+      </p>
+    </div>
+
+    <!-- ---- National ---- -->
+    <div class="tablewrap reveal" style="margin-bottom:2.5rem">
+      <table class="results">
+        <caption>National-level competitions</caption>
+        <thead>
+          <tr>
+            <th scope="col">Athlete</th>
+            <th scope="col">Event</th>
+            <th scope="col">Competition</th>
+            <th scope="col">Year</th>
+            <th scope="col">Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Athlete Name 1</td>
+            <td>50 m Free Pistol (Men)</td>
+            <td>All India G.V. Mavlankar Shooting Championship</td>
+            <td>2025</td>
+            <td><span class="medal medal--final">Finalist</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 2</td>
+            <td>10 m Air Pistol (Junior Women)</td>
+            <td>National Shooting Championship (NRAI)</td>
+            <td>2025</td>
+            <td><span class="medal medal--bronze">Bronze</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 3</td>
+            <td>25 m Sports Pistol (Women)</td>
+            <td>National Shooting Championship (NRAI)</td>
+            <td>2024</td>
+            <td><span class="medal medal--final">Finalist</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 4</td>
+            <td>10 m Air Rifle (Youth Men)</td>
+            <td>All India Inter-School Shooting Championship</td>
+            <td>2024</td>
+            <td><span class="medal medal--silver">Silver</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ---- State ---- -->
+    <div class="tablewrap reveal" style="margin-bottom:2.5rem">
+      <table class="results">
+        <caption>State-level competitions &mdash; Madhya Pradesh</caption>
+        <thead>
+          <tr>
+            <th scope="col">Athlete</th>
+            <th scope="col">Event</th>
+            <th scope="col">Competition</th>
+            <th scope="col">Year</th>
+            <th scope="col">Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Athlete Name 5</td>
+            <td>10 m Air Pistol (Junior Women)</td>
+            <td>MP State Shooting Championship</td>
+            <td>2025</td>
+            <td><span class="medal medal--gold">Gold</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 6</td>
+            <td>25 m Standard Pistol (Men)</td>
+            <td>MP State Shooting Championship</td>
+            <td>2025</td>
+            <td><span class="medal medal--silver">Silver</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 7</td>
+            <td>10 m Air Rifle (Women)</td>
+            <td>MP State Shooting Championship</td>
+            <td>2024</td>
+            <td><span class="medal medal--gold">Gold</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 8</td>
+            <td>25 m Centre Fire Pistol (Men)</td>
+            <td>MPSRA State Ranking Competition</td>
+            <td>2024</td>
+            <td><span class="medal medal--bronze">Bronze</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 9</td>
+            <td>50 m Rifle 3 Positions (Women)</td>
+            <td>MP State Shooting Championship</td>
+            <td>2023</td>
+            <td><span class="medal medal--final">Finalist</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ---- District ---- -->
+    <div class="tablewrap reveal">
+      <table class="results">
+        <caption>District-level competitions &mdash; Bhopal</caption>
+        <thead>
+          <tr>
+            <th scope="col">Athlete</th>
+            <th scope="col">Event</th>
+            <th scope="col">Competition</th>
+            <th scope="col">Year</th>
+            <th scope="col">Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Athlete Name 10</td>
+            <td>10 m Air Pistol (Sub-Youth)</td>
+            <td>Bhopal District Shooting Championship</td>
+            <td>2025</td>
+            <td><span class="medal medal--gold">Gold</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 11</td>
+            <td>10 m Air Rifle (Youth Women)</td>
+            <td>Bhopal District Shooting Championship</td>
+            <td>2025</td>
+            <td><span class="medal medal--gold">Gold</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 12</td>
+            <td>10 m Air Pistol (Junior Men)</td>
+            <td>Bhopal District Shooting Championship</td>
+            <td>2025</td>
+            <td><span class="medal medal--silver">Silver</span></td>
+          </tr>
+          <tr>
+            <td>Athlete Name 13</td>
+            <td>10 m Air Rifle (Sub-Youth)</td>
+            <td>Bhopal District Shooting Championship</td>
+            <td>2024</td>
+            <td><span class="medal medal--bronze">Bronze</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="gallery reveal" style="margin-top:3rem">
+      <img src="images/district-championship-medal-ceremony.webp" alt="Medal ceremony at the district shooting championship" loading="lazy">
+      <img src="images/district-championship-medal.webp" alt="District championship medal" loading="lazy">
+      <img src="images/district-championship-group.webp" alt="Bhopal Shooting Range athletes at the district championship" loading="lazy">
+      <img src="images/50m-shooting.webp" alt="Athletes competing on the 50 m outdoor range" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== testimonials -->
+<section class="section section--paper-alt" id="testimonials">
+  <div class="wrap">
+    <div class="head head--center reveal">
+      <p class="eyebrow">Testimonials</p>
+      <h2>What Our Shooters Say</h2>
+      <hr class="rule">
+      <p>Reviews from athletes and parents training at Bhopal Shooting Range.
+         <span class="placeholder-note">Placeholder text</span></p>
+    </div>
+
+    <div class="quotes">
+      <blockquote class="quote reveal">
+        <div class="quote__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;The coaching here is genuinely technical, not guesswork. My scores in 10 m air pistol
+           improved steadily once the shot process was corrected. Placeholder testimonial text.&rdquo;</p>
+        <footer class="quote__by"><b>Reviewer Name</b><span>Junior Air Pistol Shooter</span></footer>
+      </blockquote>
+
+      <blockquote class="quote reveal">
+        <div class="quote__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;A disciplined and safe environment for children. The coaches are patient with
+           beginners and serious about competition preparation. Placeholder testimonial text.&rdquo;</p>
+        <footer class="quote__by"><b>Reviewer Name</b><span>Parent of a Junior Shooter</span></footer>
+      </blockquote>
+
+      <blockquote class="quote reveal">
+        <div class="quote__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;The mental-performance sessions changed how I shoot finals. Match routine and
+           visualization made the difference. Placeholder testimonial text.&rdquo;</p>
+        <footer class="quote__by"><b>Reviewer Name</b><span>State-Level Pistol Shooter</span></footer>
+      </blockquote>
+    </div>
+
+    <p style="text-align:center;margin-top:2.4rem;color:var(--ink-soft);font-size:.95rem">
+      Highly rated on Google Reviews by our shooting community.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================== news -->
+<section class="section" id="news">
+  <div class="wrap">
+    <div class="head head--center reveal">
+      <p class="eyebrow">News &amp; Updates</p>
+      <h2>Latest From the Range</h2>
+      <hr class="rule">
+      <p>Championship results, new batches and range announcements.
+         <span class="placeholder-note">Placeholder content</span></p>
+    </div>
+
+    <div class="newsgrid">
+      <article class="news reveal">
+        <div class="news__img"><img src="images/district-championship-medal-ceremony.webp" alt="Medal ceremony at the district shooting championship"></div>
+        <div class="news__body">
+          <p class="news__date">Month 2025</p>
+          <h3>Our Athletes Sweep District Championship Podium</h3>
+          <p>Placeholder summary — a short recap of the medals won by our shooters at the most recent district championship.</p>
+          <a class="textlink" href="#achievements">Read More <span class="arrow">&rarr;</span></a>
+        </div>
+      </article>
+
+      <article class="news reveal">
+        <div class="news__img"><img src="images/electronic-targets%20sius.webp" alt="Electronic SIUS targets installed at the range"></div>
+        <div class="news__body">
+          <p class="news__date">Month 2025</p>
+          <h3>Electronic Target Training Now Available</h3>
+          <p>Placeholder summary — details about electronic target sessions, availability and how athletes can book lane time.</p>
+          <a class="textlink" href="#book">Read More <span class="arrow">&rarr;</span></a>
+        </div>
+      </article>
+
+      <article class="news reveal">
+        <div class="news__img"><img src="images/pistol%20training%20(men).webp" alt="Pistol and rifle athletes on the 10 m firing line"></div>
+        <div class="news__body">
+          <p class="news__date">Month 2025</p>
+          <h3>New Competitive Batch Admissions Open</h3>
+          <p>Placeholder summary — intake dates, trial process and eligibility for the competitive performance batch.</p>
+          <a class="textlink" href="#book">Read More <span class="arrow">&rarr;</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== book -->
+<section class="section section--navy" id="book">
+  <div class="wrap booking">
+    <div class="booking__intro reveal">
+      <p class="eyebrow">Book a Session</p>
+      <h2>Experience Shooting</h2>
+      <hr class="rule">
+      <p style="color:rgba(255,255,255,.72);max-width:52ch">
+        Never held an air pistol before? Book a guided one-hour experience session — safety
+        briefing, equipment, coach supervision and your first shots on a real range. Already
+        competing? Book a technical assessment with the head coach.
+      </p>
+
+      <ul class="ticklist">
+        <li>Safety briefing and range induction included</li>
+        <li>Equipment and pellets provided</li>
+        <li>Suitable for ages 10 and above</li>
+        <li>Individual and group bookings welcome</li>
+      </ul>
+
+      <div class="pricecards">
+        <div class="pricecard">
+          <span><b>Experience Shooting Session</b><span>60 minutes &middot; beginners welcome</span></span>
+          <em>On request</em>
+        </div>
+        <div class="pricecard">
+          <span><b>Monthly Coaching Batch</b><span>Structured weekly training</span></span>
+          <em>On request</em>
+        </div>
+        <div class="pricecard">
+          <span><b>Competitive Performance Program</b><span>Personal + mental-performance coaching</span></span>
+          <em>On request</em>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-top:1rem">
+        Session fees and range timings <span class="placeholder-note">To be confirmed</span>
+      </p>
+    </div>
+
+    <form class="form reveal" id="booking-form" novalidate>
+      <h3>Session Enquiry</h3>
+      <p class="form__hint">Fill in your details and we&rsquo;ll confirm your slot over phone or WhatsApp.</p>
+
+      <div class="field">
+        <label for="f-name">Full Name</label>
+        <input id="f-name" name="name" type="text" required placeholder="Your name">
+      </div>
+
+      <div class="field field--row">
+        <div>
+          <label for="f-phone">Phone</label>
+          <input id="f-phone" name="phone" type="tel" required placeholder="+91">
+        </div>
+        <div>
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" placeholder="you@example.com">
+        </div>
+      </div>
+
+      <div class="field field--row">
+        <div>
+          <label for="f-program">I&rsquo;m Interested In</label>
+          <select id="f-program" name="program">
+            <option>Experience Shooting Session</option>
+            <option>10 m Air Pistol Coaching</option>
+            <option>10 m Air Rifle Coaching</option>
+            <option>25 m Pistol Events</option>
+            <option>50 m Free Pistol / 3P Rifle</option>
+            <option>Competitive Performance Program</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-date">Preferred Date</label>
+          <input id="f-date" name="date" type="date">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-msg">Message</label>
+        <textarea id="f-msg" name="message" placeholder="Tell us about your shooting experience, age group, or preferred timings."></textarea>
+      </div>
+
+      <button class="btn btn--navy" type="submit" style="width:100%;justify-content:center">Send Enquiry <span class="arrow">&rarr;</span></button>
+      <p class="form__note">Prefer to talk? Call or WhatsApp <a href="tel:+917869139088" style="color:var(--navy);font-weight:700">+91 78691 39088</a>.</p>
+      <p class="form__status" id="form-status" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<!-- =========================================================== gallery -->
+<section class="section section--tight section--paper-alt">
+  <div class="wrap">
+    <div class="head head--center reveal">
+      <p class="eyebrow">Gallery</p>
+      <h2>Inside the Range</h2>
+      <hr class="rule">
+    </div>
+    <div class="gallery">
+      <img src="images/pistol-training.webp" alt="Air pistol training session on the 10 m line" loading="lazy">
+      <img src="images/rifle-athletes.webp" alt="Air rifle athletes at Bhopal Shooting Range" loading="lazy">
+      <img src="images/electronic-targets%20sius.webp" alt="Electronic SIUS targets" loading="lazy">
+      <img src="images/50m-shooting.webp" alt="50 m outdoor shooting range" loading="lazy">
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ========================================================== cta band -->
+<section class="ctaband">
+  <div class="wrap">
+    <div>
+      <h2>Ready to begin your shooting journey?</h2>
+      <p>Join Bhopal Shooting Range today.</p>
+    </div>
+    <a class="btn btn--green" href="contact.html">Contact Us <span class="arrow">&rarr;</span></a>
+  </div>
+</section>
+
+<!-- ============================================================ footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand">
+          <img src="images/Bhopal%20shooting%20Range%20LOGO.jpeg" alt="">
+          <span>
+            <b>Bhopal Shooting Range</b>
+            <span>Aim &middot; Focus &middot; Achieve</span>
+          </span>
+        </div>
+        <p>
+          Professional pistol and rifle shooting coaching in Bhopal. Olympic and ISSF events,
+          certified coaching and a disciplined, athlete-first training environment.
+        </p>
+        <div class="socials">
+          <a href="https://www.youtube.com/@bhopalshootingrange" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5c-.2-.9-.9-1.6-1.8-1.8C19.2 4.8 12 4.8 12 4.8s-7.2 0-8.8.4c-.9.2-1.6.9-1.8 1.8C1 8.6 1 12 1 12s0 3.4.4 5c.2.9.9 1.6 1.8 1.8 1.6.4 8.8.4 8.8.4s7.2 0 8.8-.4c.9-.2 1.6-.9 1.8-1.8.4-1.6.4-5 .4-5zM9.8 15.2V8.8l6 3.2-6 3.2z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/bhopalshootingrange" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.9-11.1a1.5 1.5 0 1 1-1.5-1.5 1.5 1.5 0 0 1 1.5 1.5z"/></svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4z"/></svg>
+          </a>
+          <a href="https://wa.me/917869139088" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.6 14.2c-.2.7-1.3 1.3-1.8 1.3-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.2.1.4.1.6-.1l.8-1c.2-.2.3-.2.6-.1l2 .9c.3.1.4.2.5.3 0 .1 0 .6-.2 1.3z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#about">About the Range</a></li>
+          <li><a href="#events">Programs &amp; Events</a></li>
+          <li><a href="#competitive">Competitive Coaching</a></li>
+          <li><a href="#coach">Head Coach</a></li>
+          <li><a href="#achievements">Achievements</a></li>
+          <li><a href="#news">News &amp; Updates</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Events Coached</h4>
+        <ul>
+          <li>10 m Air Pistol</li>
+          <li>10 m Air Rifle</li>
+          <li>25 m Rapid Fire Pistol</li>
+          <li>25 m Sports Pistol</li>
+          <li>25 m Standard &amp; Centre Fire</li>
+          <li>50 m Free Pistol</li>
+          <li>50 m Rifle 3 Positions</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact</h4>
+        <div class="contactline">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.1 4.2 2 2 0 0 1 3.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L7.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          <span><a href="tel:+917869139088">+91 78691 39088</a></span>
+        </div>
+        <div class="contactline">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Bhopal, Madhya Pradesh, India<br>
+            <span style="font-size:.82rem;color:rgba(255,255,255,.45)">Full address to be added</span>
+          </span>
+        </div>
+        <div class="contactline">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span>Range timings on request</span>
+        </div>
+        <p style="margin-top:1.2rem">
+          <a class="btn btn--gold" href="contact.html">Contact Page</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>&copy; <span data-year>2025</span> Bhopal Shooting Range. All rights reserved.</span>
+      <span>Aim &middot; Focus &middot; Achieve</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
 </html>
