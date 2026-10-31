@@ -16,3 +16,7 @@ $RECYCLE.BIN/
 .DS_Store
 .vscode/
 .idea/
+
+# source drop for the press clipping (copied into images/)
+News Article/
+New folder/

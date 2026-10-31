@@ -300,7 +300,9 @@ p  { margin: 0 0 1.1em; }
 }
 .tabpanel[hidden] { display: none; }
 
-.eventgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+/* 3 columns: the Olympic tab holds 5 cards (3 + 2) and the ISSF tab 3,
+   so neither leaves a single orphaned card on its own row. */
+.eventgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 @media (max-width: 1040px) { .eventgrid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px)  { .eventgrid { grid-template-columns: 1fr; } }
 
@@ -659,3 +661,76 @@ table.results td:first-child { font-weight: 600; color: var(--navy); white-space
   html { scroll-behavior: auto; }
   .btn:hover, .event:hover { transform: none; }
 }
+
+/* ---------------------------------------------------- utility bar ------ */
+/* Slim strip above the nav so phone/social are in the first view. */
+.utilitybar {
+  background: #050F22;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  font-size: .8rem;
+}
+.utilitybar .wrap {
+  display: flex; align-items: center; gap: 1.4rem;
+  min-height: 42px; flex-wrap: wrap;
+}
+.utilitybar a { color: rgba(255,255,255,.72); display: inline-flex; align-items: center; gap: .45rem; }
+.utilitybar a:hover { color: var(--gold); }
+.utilitybar svg { width: 15px; height: 15px; flex: none; }
+.utilitybar .ub-sep { color: rgba(255,255,255,.2); }
+.utilitybar .ub-right { margin-left: auto; display: flex; align-items: center; gap: 1rem; }
+.utilitybar .ub-social { display: flex; gap: .75rem; }
+.utilitybar .ub-social svg { fill: rgba(255,255,255,.72); width: 16px; height: 16px; }
+.utilitybar .ub-social a:hover svg { fill: var(--gold); }
+.utilitybar .ub-tag {
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; font-size: .66rem;
+}
+@media (max-width: 860px) {
+  .utilitybar .wrap { gap: .9rem; padding-block: .5rem; }
+  .utilitybar .ub-hide-sm, .utilitybar .ub-sep { display: none; }
+  .utilitybar .ub-right { margin-left: 0; width: 100%; }
+}
+
+/* -------------------------------------------------- news clipping ------ */
+.newsclip { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem,4vw,3.5rem); align-items: center; }
+.newsclip__fig { margin: 0; position: relative; }
+.newsclip__fig img {
+  width: 100%; background: var(--white);
+  border: 1px solid var(--line); box-shadow: var(--shadow-lg);
+}
+.newsclip__fig figcaption {
+  font-size: .78rem; color: var(--ink-soft); margin-top: .8rem; font-style: italic;
+}
+.section--navy .newsclip__fig figcaption { color: rgba(255,255,255,.55); }
+.newsclip__quote {
+  font-family: var(--serif); font-size: 1.15rem; line-height: 1.55;
+  border-left: 3px solid var(--gold); padding-left: 1.2rem; margin: 1.5rem 0;
+}
+@media (max-width: 880px) { .newsclip { grid-template-columns: 1fr; } }
+
+/* ------------------------------------------------- section linkcards --- */
+.linkcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+@media (max-width: 940px) { .linkcards { grid-template-columns: 1fr; } }
+.linkcard {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: 300px; padding: 1.8rem; overflow: hidden;
+  box-shadow: var(--shadow); color: var(--white);
+}
+.linkcard img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0; transition: transform .5s;
+}
+.linkcard::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(7,22,48,.15) 0%, rgba(7,22,48,.88) 72%);
+}
+.linkcard:hover img { transform: scale(1.06); }
+.linkcard > * { position: relative; z-index: 2; }
+.linkcard h3 { color: var(--white); font-size: 1.3rem; margin-bottom: .4rem; }
+.linkcard p { font-size: .92rem; color: rgba(255,255,255,.75); margin-bottom: .9rem; }
+.linkcard span.go {
+  font-size: .74rem; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold);
+  display: inline-flex; align-items: center; gap: .4rem;
+}
+.linkcard:hover span.go { gap: .7rem; }
