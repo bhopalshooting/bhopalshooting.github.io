@@ -1,0 +1,240 @@
+/**
+ * NSCC practice-slot booking backend — Google Apps Script web app.
+ *
+ * Bind this script to a Google Sheet (Extensions → Apps Script), set the
+ * NOTIFY_EMAIL script property, and deploy as a web app. See README.md.
+ *
+ *   GET  ?action=slots   → { ok, full: ["2026-11-20|17-19", ...], some: [...] }
+ *                          (fully / partly booked sessions — capacity is never exposed)
+ *   POST (JSON as text/plain) { date, session, discipline, name, phone,
+ *        email?, team?, notes?, website? }
+ *                        → { ok, lane, ref }  |  { ok:false, error, message }
+ *
+ * Keep CONFIG in step with the CONFIG block at the top of js/nscc-booking.js.
+ */
+
+var CONFIG = {
+  START: '2026-11-20',          // first bookable day (inclusive)
+  END: '2027-01-04',            // last bookable day (inclusive)
+  SESSIONS: {                   // id → [start hour, label]
+    '08-10': [8,  '8 – 10 AM'],
+    '10-12': [10, '10 AM – 12 PM'],
+    '12-14': [12, '12 – 2 PM'],
+    '14-16': [14, '2 – 4 PM'],
+    '16-18': [16, '4 – 6 PM'],
+    '18-20': [18, '6 – 8 PM']
+  },
+  LANES: 4,                     // shooters per session (keep in step with LANES in js/nscc-booking.js)
+  DISCIPLINES: ['Rifle', 'Pistol'],
+  FEE: '₹500',
+  UPI_ID: 'bhopal10mshootingrange-3@okaxis',
+  TZ: 'Asia/Kolkata',
+  SHEET: 'Bookings'
+};
+
+var HEADERS = ['Ref', 'Booked at (IST)', 'Date', 'Session', 'Lane', 'Discipline',
+               'Name', 'Phone', 'Email', 'Team / State', 'Notes', 'Status'];
+var COL = { ref: 0, date: 2, session: 3, lane: 4, phone: 7, status: 11 };
+
+/* ------------------------------------------------------------- endpoints */
+
+function doGet(e) {
+  var action = e && e.parameter ? e.parameter.action : '';
+  if (action === 'slots') {
+    var counts = takenCounts_(), full = [], some = [];
+    Object.keys(counts).forEach(function (k) { (counts[k] >= CONFIG.LANES ? full : some).push(k); });
+    return json_({ ok: true, full: full, some: some });
+  }
+  return json_({ ok: true, service: 'nscc-booking' });
+}
+
+function doPost(e) {
+  var data;
+  try {
+    data = JSON.parse(e.postData.contents);
+  } catch (err) {
+    return fail_('invalid', 'The booking request could not be read.');
+  }
+
+  // Honeypot: real visitors never fill the hidden "website" field.
+  if (data.website) return json_({ ok: true, lane: 0, ref: '-' });
+
+  var problem = validate_(data);
+  if (problem) return fail_('invalid', problem);
+
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000);
+  } catch (err) {
+    return fail_('busy', 'The booking system is busy. Please try again in a moment.');
+  }
+
+  var booking;
+  try {
+    var sheet = sheet_();
+    var key = data.date + '|' + data.session;
+    var phone = normPhone_(data.phone);
+    var inSlot = activeRows_(sheet).filter(function (r) { return r.key === key; });
+
+    if (inSlot.some(function (r) { return r.phone === phone; })) {
+      return fail_('duplicate', 'This phone number is already booked into that session.');
+    }
+
+    var used = inSlot.map(function (r) { return r.lane; });
+    var lane = 0;
+    for (var l = 1; l <= CONFIG.LANES; l++) {
+      if (used.indexOf(l) === -1) { lane = l; break; }
+    }
+    if (!lane) return fail_('full', 'That session has just been fully booked. Please pick another slot.');
+
+    booking = {
+      ref: 'NSCC-' + Utilities.getUuid().replace(/-/g, '').slice(0, 6).toUpperCase(),
+      bookedAt: Utilities.formatDate(new Date(), CONFIG.TZ, 'yyyy-MM-dd HH:mm'),
+      date: data.date,
+      session: data.session,
+      lane: lane,
+      discipline: data.discipline,
+      name: clip_(data.name, 80),
+      phone: clip_(data.phone, 20),
+      email: clip_(data.email, 120),
+      team: clip_(data.team, 80),
+      notes: clip_(data.notes, 500)
+    };
+
+    var row = [booking.ref, booking.bookedAt, booking.date, booking.session,
+               String(booking.lane), booking.discipline, booking.name, booking.phone,
+               booking.email, booking.team, booking.notes, 'Confirmed'].map(cell_);
+    sheet.getRange(sheet.getLastRow() + 1, 1, 1, row.length)
+         .setNumberFormat('@')
+         .setValues([row]);
+    SpreadsheetApp.flush();
+  } finally {
+    lock.releaseLock();
+  }
+
+  notify_(booking);
+  return json_({ ok: true, lane: booking.lane, ref: booking.ref });
+}
+
+/* --------------------------------------------------------------- helpers */
+
+function validate_(d) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d.date || '') || d.date < CONFIG.START || d.date > CONFIG.END) {
+    return 'Please choose a date between 20 November and 4 January.';
+  }
+  var s = CONFIG.SESSIONS[d.session];
+  if (!s) return 'Please choose a session.';
+  var hh = (s[0] < 10 ? '0' : '') + s[0];
+  if (new Date(d.date + 'T' + hh + ':00:00+05:30').getTime() <= Date.now()) {
+    return 'That session has already started. Please pick a later slot.';
+  }
+  if (!d.name || String(d.name).trim().length < 2) return 'Please enter your name.';
+  var digits = normPhone_(d.phone);
+  if (digits.length < 10 || digits.length > 15) return 'Please enter a valid phone number.';
+  if (d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(d.email))) return 'Please enter a valid email address.';
+  return '';
+}
+
+function sheet_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(CONFIG.SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(CONFIG.SHEET);
+    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
+    sh.setFrozenRows(1);
+    // Status column: dropdown so the range can cancel a booking and free the lane.
+    sh.getRange('L2:L').setDataValidation(
+      SpreadsheetApp.newDataValidation().requireValueInList(['Confirmed', 'Cancelled'], true).build());
+  }
+  return sh;
+}
+
+/** Bookings that still hold a lane (anything not marked Cancelled). */
+function activeRows_(sheet) {
+  var n = sheet.getLastRow() - 1;
+  if (n < 1) return [];
+  return sheet.getRange(2, 1, n, HEADERS.length).getDisplayValues()
+    .filter(function (r) { return r[COL.ref] && String(r[COL.status]).trim().toLowerCase() !== 'cancelled'; })
+    .map(function (r) {
+      return {
+        key: r[COL.date] + '|' + r[COL.session],
+        lane: Number(r[COL.lane]),
+        phone: normPhone_(r[COL.phone])
+      };
+    });
+}
+
+function takenCounts_() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET);
+  var counts = {};
+  if (!sheet) return counts;
+  activeRows_(sheet).forEach(function (r) { counts[r.key] = (counts[r.key] || 0) + 1; });
+  return counts;
+}
+
+function notify_(b) {
+  var label = CONFIG.SESSIONS[b.session][1];
+  var when = Utilities.formatDate(new Date(b.date + 'T12:00:00+05:30'), CONFIG.TZ, 'EEE d MMM yyyy');
+  var lines = [
+    'New NSCC practice booking',
+    '',
+    'Ref:        ' + b.ref,
+    'Date:       ' + when,
+    'Session:    ' + label,
+    'Lane:       ' + b.lane,
+    'Discipline: ' + b.discipline,
+    '',
+    'Name:       ' + b.name,
+    'Phone:      ' + b.phone,
+    'Email:      ' + (b.email || '-'),
+    'Team/State: ' + (b.team || '-'),
+    'Notes:      ' + (b.notes || '-'),
+    '',
+    'Fee:        ' + CONFIG.FEE + ' by UPI to ' + CONFIG.UPI_ID + ' (payment note: NSCC practice ' + b.ref + ')',
+    '',
+    'To cancel, set Status to "Cancelled" in the Bookings sheet — the lane becomes free again.'
+  ];
+
+  var to = PropertiesService.getScriptProperties().getProperty('NOTIFY_EMAIL');
+  try {
+    if (to) {
+      var opts = {};
+      if (b.email) opts.replyTo = b.email;
+      MailApp.sendEmail(to, 'NSCC practice: ' + when + ', ' + label + ' — Lane ' + b.lane + ' (' + b.discipline + ')',
+                        lines.join('\n'), opts);
+    } else {
+      console.error('NOTIFY_EMAIL script property is not set; no notification sent for ' + b.ref);
+    }
+    if (b.email) {
+      MailApp.sendEmail(b.email, 'Your practice lane is booked — ' + when + ', ' + label,
+        ['Hi ' + b.name + ',', '',
+         'Your practice lane at Bhopal Shooting Range Academy is booked.', '',
+         'Date:       ' + when,
+         'Session:    ' + label,
+         'Lane:       ' + b.lane,
+         'Discipline: ' + b.discipline,
+         'Reference:  ' + b.ref, '',
+         'Practice fee: ' + CONFIG.FEE + ' for the 2-hour session.',
+         'Pay by UPI to ' + CONFIG.UPI_ID + ' and put ' + b.ref + ' in the payment note.', '',
+         'Need to change or cancel? Call or WhatsApp +91 78691 39088 and quote your reference.', '',
+         'Bhopal Shooting Range Academy — Aim · Focus · Achieve'].join('\n'),
+        { name: 'Bhopal Shooting Range Academy' });
+    }
+  } catch (err) {
+    // The booking is already saved; a mail failure must not undo it.
+    console.error('Notification failed for ' + b.ref + ': ' + err);
+  }
+}
+
+function normPhone_(p) { return String(p || '').replace(/\D/g, ''); }
+
+function clip_(v, max) { return String(v == null ? '' : v).trim().slice(0, max); }
+
+/** Stop user text being interpreted as a spreadsheet formula. */
+function cell_(v) { return /^[=+\-@]/.test(v) ? "'" + v : v; }
+
+function fail_(code, message) { return json_({ ok: false, error: code, message: message }); }
+
+function json_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
