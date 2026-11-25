@@ -842,7 +842,23 @@ table.results td:first-child { font-weight: 600; color: var(--navy); white-space
 /* sessions + discipline */
 .sessionopts, .segopts { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
 .sessionopts { grid-template-columns: repeat(3, 1fr); }
-@media (max-width: 560px) { .sessionopts { grid-template-columns: 1fr 1fr; } }
+/* Phones: one session per row — time + availability left, lane buttons right.
+   (Two boxes side by side can't fit four 28px lane buttons each on a phone.) */
+@media (max-width: 560px) {
+  .sessionopts { grid-template-columns: 1fr; gap: .5rem; }
+  .sessionopts .sessionopt {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: .6rem;
+    align-items: center; padding: .6rem .75rem;
+  }
+  .sessionopts .sessionopt > b { grid-column: 1; grid-row: 1; font-size: .92rem; }
+  .sessionopts .sessionopt > span { grid-column: 1; grid-row: 2; font-size: .76rem; }
+  .sessionopts .sessionopt .lanes { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; }
+}
+/* Narrowest phones: lanes go under the time so the time stays on one line. */
+@media (max-width: 350px) {
+  .sessionopts .sessionopt { grid-template-columns: 1fr; }
+  .sessionopts .sessionopt .lanes { grid-column: 1; grid-row: 3; margin-top: .45rem; }
+}
 .sessionopt, .segopt span {
   display: flex; flex-direction: column; align-items: flex-start; gap: .15rem; width: 100%;
   padding: .9rem 1rem; text-align: left; font-family: var(--sans); color: var(--ink);
