@@ -4,10 +4,10 @@
  * Bind this script to a Google Sheet (Extensions → Apps Script), set the
  * NOTIFY_EMAIL script property, and deploy as a web app. See README.md.
  *
- *   GET  ?action=slots   → { ok, full: ["2026-11-20|17-19", ...], some: [...] }
- *                          (fully / partly booked sessions — capacity is never exposed)
- *   POST (JSON as text/plain) { date, session, discipline, name, phone,
- *        email?, team?, notes?, website? }
+ *   GET  ?action=slots   → { ok, full: [...], some: [...],
+ *                            taken: { "2026-12-17|14-16": [1, 3], ... } }   (lane numbers in use)
+ *   POST (JSON as text/plain) { date, session, lane, name, phone, email,
+ *        team?, website? }          — lane is the lane the shooter picked (1..LANES)
  *                        → { ok, lane, ref }  |  { ok:false, error, message }
  *
  * Keep CONFIG in step with the CONFIG block at the top of js/nscc-booking.js.
@@ -42,9 +42,9 @@ var PAYMENT_STATES = ['Pending', 'Paid'];
 function doGet(e) {
   var action = e && e.parameter ? e.parameter.action : '';
   if (action === 'slots') {
-    var counts = takenCounts_(), full = [], some = [];
-    Object.keys(counts).forEach(function (k) { (counts[k] >= CONFIG.LANES ? full : some).push(k); });
-    return json_({ ok: true, full: full, some: some });
+    var taken = takenLanes_(), full = [], some = [];
+    Object.keys(taken).forEach(function (k) { (taken[k].length >= CONFIG.LANES ? full : some).push(k); });
+    return json_({ ok: true, full: full, some: some, taken: taken });
   }
   return json_({ ok: true, service: 'nscc-booking' });
 }
@@ -82,11 +82,22 @@ function doPost(e) {
     }
 
     var used = inSlot.map(function (r) { return r.lane; });
-    var lane = 0;
-    for (var l = 1; l <= CONFIG.LANES; l++) {
-      if (used.indexOf(l) === -1) { lane = l; break; }
+    if (used.length >= CONFIG.LANES) {
+      return fail_('full', 'That session has just been fully booked. Please pick another slot.');
     }
-    if (!lane) return fail_('full', 'That session has just been fully booked. Please pick another slot.');
+    var lane = 0;
+    var wanted = Number(data.lane);
+    if (wanted >= 1 && wanted <= CONFIG.LANES && Math.floor(wanted) === wanted) {
+      // Book exactly the lane the shooter picked, unless someone has just taken it.
+      if (used.indexOf(wanted) !== -1) {
+        return fail_('taken', 'Lane ' + wanted + ' in that session has just been taken. Please pick another lane.');
+      }
+      lane = wanted;
+    } else {
+      for (var l = 1; l <= CONFIG.LANES; l++) {
+        if (used.indexOf(l) === -1) { lane = l; break; }
+      }
+    }
 
     booking = {
       ref: 'NSCC-' + Utilities.getUuid().replace(/-/g, '').slice(0, 6).toUpperCase(),
@@ -182,12 +193,16 @@ function activeRows_(sheet) {
     });
 }
 
-function takenCounts_() {
+/** session key → lane numbers currently booked (Cancelled rows excluded). */
+function takenLanes_() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET);
-  var counts = {};
-  if (!sheet) return counts;
-  activeRows_(sheet).forEach(function (r) { counts[r.key] = (counts[r.key] || 0) + 1; });
-  return counts;
+  var taken = {};
+  if (!sheet) return taken;
+  activeRows_(sheet).forEach(function (r) {
+    if (!taken[r.key]) taken[r.key] = [];
+    if (r.lane && taken[r.key].indexOf(r.lane) === -1) taken[r.key].push(r.lane);
+  });
+  return taken;
 }
 
 function notify_(b) {

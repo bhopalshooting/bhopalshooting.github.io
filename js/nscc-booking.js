@@ -388,7 +388,12 @@
           return loadAvailability();
         }
         setStatus((res && res.message) || 'Something went wrong. Please try again.', 'error');
-        if (res && res.error === 'full') { state.session = ''; return loadAvailability(); }
+        // Someone else got there first: refresh the lanes so the shooter can pick again.
+        if (res && (res.error === 'full' || res.error === 'taken')) {
+          state.session = '';
+          state.lane = 0;
+          return loadAvailability();
+        }
       })
       .catch(function () {
         setStatus('We couldn’t reach the booking system. Please try again, or call / WhatsApp +91 78691 39088.', 'error');

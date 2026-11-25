@@ -31,9 +31,13 @@ class Handler(BaseHTTPRequestHandler):
         counts = {}
         for r in rows:
             counts[r['key']] = counts.get(r['key'], 0) + 1
+        taken = {}
+        for r in rows:
+            taken.setdefault(r['key'], []).append(r['lane'])
         self._send({'ok': True,
                     'full': [k for k, v in counts.items() if v >= LANES],
-                    'some': [k for k, v in counts.items() if v < LANES]})
+                    'some': [k for k, v in counts.items() if v < LANES],
+                    'taken': taken})
 
     def do_POST(self):
         d = json.loads(self.rfile.read(int(self.headers['Content-Length'])))
@@ -51,10 +55,17 @@ class Handler(BaseHTTPRequestHandler):
             return self._send({'ok': False, 'error': 'duplicate',
                                'message': 'This phone number is already booked into that session.'})
         used = [r['lane'] for r in in_slot]
-        lane = next((n for n in range(1, LANES + 1) if n not in used), 0)
-        if not lane:
+        if len(used) >= LANES:
             return self._send({'ok': False, 'error': 'full',
                                'message': 'That session has just been fully booked. Please pick another slot.'})
+        wanted = d.get('lane')
+        if isinstance(wanted, int) and 1 <= wanted <= LANES:
+            if wanted in used:
+                return self._send({'ok': False, 'error': 'taken',
+                                   'message': 'Lane %d in that session has just been taken. Please pick another lane.' % wanted})
+            lane = wanted
+        else:
+            lane = next(n for n in range(1, LANES + 1) if n not in used)
         ref = 'NSCC-' + uuid.uuid4().hex[:6].upper()
         rows.append({'key': key, 'lane': lane, 'phone': phone})
         print('Booked %s: %s %s lane %d — %s' % (ref, d['date'], d['session'], lane, d.get('name')))
