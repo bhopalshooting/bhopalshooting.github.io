@@ -27,7 +27,7 @@ var CONFIG = {
   LANES: 4,                     // shooters per session (keep in step with LANES in js/nscc-booking.js)
   DISCIPLINES: ['Rifle', 'Pistol'],
   FEE: '₹500',
-  UPI_ID: 'rishisoni19918@ybl',
+  UPI_ID: 'bhopal10mshootingrange-3@okaxis',
   TZ: 'Asia/Kolkata',
   SHEET: 'Bookings'
 };
@@ -105,7 +105,7 @@ function doPost(e) {
       date: data.date,
       session: data.session,
       lane: lane,
-      discipline: data.discipline,
+      discipline: clip_(data.discipline, 20),   // no longer asked on the page; column kept for old rows
       name: clip_(data.name, 80),
       phone: clip_(data.phone, 20),
       email: clip_(data.email, 120),
@@ -215,7 +215,6 @@ function notify_(b) {
     'Date:       ' + when,
     'Session:    ' + label,
     'Lane:       ' + b.lane,
-    'Discipline: ' + b.discipline,
     '',
     'Name:       ' + b.name,
     'Phone:      ' + b.phone,
@@ -223,9 +222,9 @@ function notify_(b) {
     'Team/State: ' + (b.team || '-'),
     'Notes:      ' + (b.notes || '-'),
     '',
-    'Fee:        ' + CONFIG.FEE + ' by UPI to ' + CONFIG.UPI_ID,
-    'Payment:    Pending — look for "' + b.ref + '" in the payment note in your UPI app,',
-    '            then set Payment to "Paid" in the Bookings sheet.',
+    'Fee:        ' + CONFIG.FEE + ' — the shooter has been sent to WhatsApp to ask for the payment QR.',
+    'Payment:    Pending — reply on WhatsApp with the QR (ask them to put ' + b.ref + ' in the note),',
+    '            then set Payment to "Paid" in the Bookings sheet once it arrives.',
     '',
     'To cancel, set Status to "Cancelled" in the Bookings sheet — the lane becomes free again.'
   ];
@@ -235,7 +234,7 @@ function notify_(b) {
     if (to) {
       var opts = {};
       if (b.email) opts.replyTo = b.email;
-      MailApp.sendEmail(to, 'NSCC practice: ' + when + ', ' + label + ' — Lane ' + b.lane + ' (' + b.discipline + ')',
+      MailApp.sendEmail(to, 'NSCC practice: ' + when + ', ' + label + ' — Lane ' + b.lane,
                         lines.join('\n'), opts);
     } else {
       console.error('NOTIFY_EMAIL script property is not set; no notification sent for ' + b.ref);
@@ -247,11 +246,10 @@ function notify_(b) {
          'Date:       ' + when,
          'Session:    ' + label,
          'Lane:       ' + b.lane,
-         'Discipline: ' + b.discipline,
          'Reference:  ' + b.ref, '',
          'Practice fee: ' + CONFIG.FEE + ' for the 2-hour session.',
-         'Pay by UPI to ' + CONFIG.UPI_ID + ' and put ' + b.ref + ' in the payment note',
-         '(scanning the QR code on the booking page fills this in for you).', '',
+         'We will send you the payment QR on WhatsApp. If WhatsApp did not open after booking,',
+         'message +91 78691 39088 with your reference and we will send it there.', '',
          'Need to change or cancel? Call or WhatsApp +91 78691 39088 and quote your reference.', '',
          'Bhopal Shooting Range Academy — Aim · Focus · Achieve'].join('\n'),
         { name: 'Bhopal Shooting Range Academy' });

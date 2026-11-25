@@ -102,8 +102,8 @@
       </div>
 
       <p class="nscc-help">
-        Pay &#8377;500 by UPI to <b>rishisoni19918@ybl</b> and send the payment
-        screenshot on WhatsApp &mdash; your lane is confirmed once we receive it.
+        After you book, WhatsApp opens with your booking &mdash; send it and we&rsquo;ll reply with
+        the payment QR. Your lane is confirmed once you&rsquo;ve paid.
       </p>
 
       <p class="nscc-help">
@@ -182,23 +182,19 @@
         <p class="eyebrow">Lane reserved &middot; one step left</p>
         <p class="nscc-done__when"><span data-done="when"></span> &middot; <span data-done="lane">Lane 1</span></p>
 
-        <div class="paycard">
-          <h3>Pay <span data-done="amt">&#8377;500</span> to confirm</h3>
-          <div class="paycard__qr" data-done="qr" role="img" aria-label="UPI payment QR code"></div>
-          <a class="btn btn--gold paycard__app" data-done="upi" href="#">Pay with UPI app <span class="arrow">&rarr;</span></a>
-          <p class="paycard__how">Scan with any UPI app &mdash; GPay, PhonePe, Paytm or BHIM.
-             The amount and payment note are filled in for you.</p>
-          <div class="paycard__ref">
-            <span>Payment note</span>
+        <div class="wacard">
+          <h3>Send your booking on WhatsApp</h3>
+          <div class="wacard__ref">
+            <span>Your reference</span>
             <b data-done="ref"></b>
-            <small>Keep this in the note so we can match your payment.</small>
           </div>
-          <p class="paycard__upi">UPI ID <b>rishisoni19918@ybl</b></p>
-          <a class="paycard__save" data-done="save" href="#" download>Save QR image</a>
+          <a class="btn btn--green wacard__btn" data-done="wa" href="#">Open WhatsApp <span class="arrow">&rarr;</span></a>
+          <p class="wacard__how">Press <b>send</b> in WhatsApp. We&rsquo;ll reply with the payment QR for
+             <b data-done="amt">&#8377;500</b> &mdash; your lane is confirmed once you&rsquo;ve paid.</p>
         </div>
 
         <p class="nscc-done__mail">The range has been notified.
-           <span data-done="mail">A confirmation email with these payment details is on its way to you.</span></p>
+           <span data-done="mail">A confirmation email with your reference is on its way to you.</span></p>
         <p class="form__note">To change or cancel, call or WhatsApp
           <a href="tel:+917869139088" style="color:var(--navy);font-weight:700">+91 78691 39088</a> with your reference.</p>
         <button class="btn btn--outline" id="nscc-again" type="button" style="margin-top:1.2rem">Book another slot</button>
@@ -310,7 +306,6 @@
 </footer>
 
 <script src="js/main.js"></script>
-<script src="js/vendor/qrcode.js"></script>
 <script src="js/nscc-booking.js?v=lanes2"></script>
 </body>
 </html>

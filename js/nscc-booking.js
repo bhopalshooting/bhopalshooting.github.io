@@ -18,7 +18,7 @@
     ],
     LANES: 4,
     WHATSAPP: '917869139088',
-    UPI: { id: 'rishisoni19918@ybl', name: 'Bhopal Shooting Range Academy', amount: '500' }
+    FEE: '500'   // rupees per 2-hour session; payment QR is sent on WhatsApp
   };
 
   var IST_OFFSET_MS = 5.5 * 3600 * 1000;
@@ -286,13 +286,33 @@
     return '';
   }
 
+  // The page leaves for WhatsApp right after booking; remember the booking for this
+  // browser session so coming back shows the confirmation, not an empty form.
+  var LAST_KEY = 'nscc-last-booking';
+  function rememberBooking(b, res) {
+    try { sessionStorage.setItem(LAST_KEY, JSON.stringify({ b: b, res: res, t: Date.now() })); } catch (err) { /* private mode etc. */ }
+  }
+  function forgetBooking() {
+    try { sessionStorage.removeItem(LAST_KEY); } catch (err) { /* ignore */ }
+  }
+  function recalledBooking() {
+    try {
+      var last = JSON.parse(sessionStorage.getItem(LAST_KEY) || 'null');
+      if (last && last.b && last.res && findSession(last.b.session) && Date.now() - last.t < 6 * 3600000) return last;
+    } catch (err) { /* ignore */ }
+    return null;
+  }
+
   function showDone(b, res) {
+    rememberBooking(b, res);
     var s = findSession(b.session);
     doneEl.querySelector('[data-done="lane"]').textContent = 'Lane ' + res.lane;
     doneEl.querySelector('[data-done="when"]').textContent = prettyDate(b.date) + ' · ' + s.label;
     doneEl.querySelector('[data-done="ref"]').textContent = res.ref;
     doneEl.querySelector('[data-done="mail"]').hidden = !b.email;
-    renderPayment(res.ref);
+    doneEl.querySelector('[data-done="amt"]').textContent = '₹' + CONFIG.FEE;
+    var wa = bookingWhatsApp(b, res);
+    doneEl.querySelector('[data-done="wa"]').setAttribute('href', wa);
     form.hidden = true;
     doneEl.hidden = false;
     // The confirmation is much shorter than the form it replaces, so bring its top
@@ -301,52 +321,23 @@
     doneEl.focus({ preventScroll: true });
   }
 
-  /* ------------------------------------------------------------- payment */
-  function upiLink(ref) {
-    return 'upi://pay?pa=' + CONFIG.UPI.id +
-      '&pn=' + encodeURIComponent(CONFIG.UPI.name) +
-      '&am=' + CONFIG.UPI.amount + '&cu=INR' +
-      '&tn=' + encodeURIComponent(ref);   // reference only, so a truncated bank statement still shows it
-  }
-
-  function renderPayment(ref) {
-    var link = upiLink(ref);
-    doneEl.querySelector('[data-done="amt"]').textContent = '₹' + CONFIG.UPI.amount;
-    doneEl.querySelector('[data-done="upi"]').setAttribute('href', link);
-    var box = doneEl.querySelector('[data-done="qr"]');
-    var save = doneEl.querySelector('[data-done="save"]');
-    if (typeof window.qrcode !== 'function') { box.hidden = true; save.hidden = true; return; }
-    var qr = window.qrcode(0, 'M');
-    qr.addData(link);
-    qr.make();
-    box.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
-    box.hidden = false;
-    // A PNG copy, so a shooter on a phone can pay via "scan from gallery" in their UPI app.
-    var png = qrPng(qr, ref);
-    save.hidden = !png;
-    if (png) { save.href = png; save.setAttribute('download', ref + '-upi-qr.png'); }
-  }
-
-  function qrPng(qr, ref) {
-    try {
-      var n = qr.getModuleCount(), cell = 10, quiet = 4 * cell, size = n * cell + quiet * 2, foot = 70;
-      var c = document.createElement('canvas');
-      c.width = size; c.height = size + foot;
-      var g = c.getContext('2d');
-      g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
-      g.fillStyle = '#000';
-      for (var r = 0; r < n; r++) for (var col = 0; col < n; col++) {
-        if (qr.isDark(r, col)) g.fillRect(quiet + col * cell, quiet + r * cell, cell, cell);
-      }
-      g.textAlign = 'center';
-      g.font = 'bold 26px sans-serif';
-      g.fillText('₹' + CONFIG.UPI.amount + '  ·  ' + ref, size / 2, size + 18);
-      g.font = '18px sans-serif';
-      g.fillText(CONFIG.UPI.name, size / 2, size + 48);
-      return c.toDataURL('image/png');
-    } catch (err) {
-      return '';
-    }
+  /* ----------------------------------------------------- WhatsApp hand-off */
+  // UPI apps block "pay" links to a personal UPI ID, so the range sends the
+  // payment QR on WhatsApp instead. The booking is already in the Sheet.
+  function bookingWhatsApp(b, res) {
+    var s = findSession(b.session);
+    var text = ['NSCC practice booking',
+      'Reference: ' + res.ref,
+      'Date: ' + prettyDate(b.date),
+      'Session: ' + s.label,
+      'Lane: ' + res.lane,
+      'Name: ' + b.name,
+      'Phone: ' + b.phone,
+      'Email: ' + b.email,
+      'Team/State: ' + (b.team || '-'),
+      '',
+      'Please send the payment QR for Rs ' + CONFIG.FEE + '.'].join('\n');
+    return 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(text);
   }
 
   form.addEventListener('submit', function (e) {
@@ -364,12 +355,8 @@
         'Name: ' + b.name, 'Phone: ' + b.phone, 'Email: ' + (b.email || '-'),
         'Team/State: ' + (b.team || '-'),
         '',
-        'Fee: Rs ' + CONFIG.UPI.amount + ' per session.',
-        'To confirm this slot, pay Rs ' + CONFIG.UPI.amount + ' by UPI to ' + CONFIG.UPI.id +
-          ' (' + CONFIG.UPI.name + ') and send the payment screenshot in this WhatsApp chat.',
-        'Your lane is confirmed once we receive the screenshot.'].join('\n');
-      setStatus('WhatsApp is opening with your request. Send it, pay ₹' + CONFIG.UPI.amount +
-        ' by UPI, and share the payment screenshot in the same chat to confirm your lane.');
+        'Please send the payment QR for Rs ' + CONFIG.FEE + '.'].join('\n');
+      setStatus('WhatsApp is opening with your request. Send it and we’ll reply with the payment QR.');
       window.open('https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
       return;
     }
@@ -385,7 +372,8 @@
       .then(function (res) {
         if (res && res.ok) {
           showDone(b, res);
-          return loadAvailability();
+          window.location.href = bookingWhatsApp(b, res);
+          return;
         }
         setStatus((res && res.message) || 'Something went wrong. Please try again.', 'error');
         // Someone else got there first: refresh the lanes so the shooter can pick again.
@@ -406,6 +394,7 @@
   });
 
   document.getElementById('nscc-again').addEventListener('click', function () {
+    forgetBooking();
     state.date = '';
     state.session = '';
     state.lane = 0;
@@ -418,11 +407,14 @@
   });
 
   if (!endpoint) {
-    noticeEl.textContent = 'Sending this form opens WhatsApp with your chosen slot and lane. Pay ₹' +
-      CONFIG.UPI.amount + ' by UPI and send the screenshot in that chat to confirm.';
+    noticeEl.textContent = 'Sending this form opens WhatsApp with your chosen slot and lane. ' +
+      'We’ll reply there with the payment QR for ₹' + CONFIG.FEE + '.';
     noticeEl.hidden = false;
   }
 
   render();
   loadAvailability();
+
+  var last = recalledBooking();
+  if (last) showDone(last.b, last.res);
 })();
