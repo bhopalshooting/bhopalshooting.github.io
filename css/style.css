@@ -935,31 +935,9 @@ table.results td:first-child { font-weight: 600; color: var(--navy); white-space
   background: var(--white); border: 1px solid var(--line);
 }
 .paycard__qr svg { display: block; width: 100%; height: auto; }
+.paycard__app { margin-bottom: 1rem; }
+@media (hover: hover) and (pointer: fine) { .paycard__app { display: none; } }
 .paycard__how { font-size: .9rem; color: var(--ink-soft); max-width: 40ch; margin: 0 auto 1rem; }
-.paycard__save { margin-bottom: .9rem; }
-.paycard__steps {
-  text-align: left; max-width: 300px; margin: 0 auto 1.2rem; padding-left: 1.3rem;
-  font-size: .9rem; color: var(--ink-soft);
-}
-.paycard__steps li { margin-bottom: .25rem; }
-.paycard__steps b { color: var(--navy); }
-/* Touch devices: save-and-scan steps. Desktop: scan from a phone, save is a plain link. */
-.paycard__how--desk { display: none; }
-@media (hover: hover) and (pointer: fine) {
-  .paycard__how--desk { display: block; }
-  .paycard__steps { display: none; }
-  .paycard__save {
-    background: none; border: 0; padding: 0; color: var(--navy); text-transform: none;
-    letter-spacing: 0; font-size: .82rem; text-decoration: underline;
-  }
-  .paycard__save:hover { background: none; transform: none; }
-}
-.paycard__copy {
-  margin-top: .35rem; padding: .35rem .8rem; font: 700 .72rem var(--sans);
-  letter-spacing: .1em; text-transform: uppercase; color: var(--navy); cursor: pointer;
-  background: var(--white); border: 1px solid var(--navy); border-radius: var(--radius);
-}
-.paycard__copy:hover { background: var(--navy); color: var(--white); }
 .paycard__ref {
   display: grid; gap: .1rem; justify-items: center; padding: .8rem 1rem; margin: 0 auto 1rem;
   max-width: 320px; background: var(--white); border: 1px dashed var(--gold-dim);
@@ -967,11 +945,7 @@ table.results td:first-child { font-weight: 600; color: var(--navy); white-space
 .paycard__ref span { font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
 .paycard__ref b { font-family: var(--serif); font-size: 1.6rem; color: var(--navy); letter-spacing: .04em; user-select: all; }
 .paycard__ref small { font-size: .78rem; color: var(--ink-soft); }
-.paycard__upi {
-  display: grid; gap: .1rem; justify-items: center; max-width: 320px; margin: 0 auto;
-  font-size: .88rem; color: var(--ink-soft);
-}
-.paycard__upi > span { font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-.paycard__upi b { color: var(--navy); overflow-wrap: anywhere; font-size: 1rem; }
-.paycard__upi small { font-size: .78rem; margin-top: .3rem; }
+.paycard__upi { font-size: .88rem; color: var(--ink-soft); margin-bottom: .5rem; }
+.paycard__upi b { display: block; color: var(--navy); overflow-wrap: anywhere; }
+.paycard__save { font-size: .82rem; font-weight: 700; color: var(--navy); text-decoration: underline; }
 .nscc-done__mail { font-size: .92rem; }

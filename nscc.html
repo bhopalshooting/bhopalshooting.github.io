@@ -185,31 +185,16 @@
         <div class="paycard">
           <h3>Pay <span data-done="amt">&#8377;500</span> to confirm</h3>
           <div class="paycard__qr" data-done="qr" role="img" aria-label="UPI payment QR code"></div>
-          <p class="paycard__how paycard__how--desk">Scan with any UPI app &mdash; GPay, PhonePe, Paytm or BHIM.
+          <a class="btn btn--gold paycard__app" data-done="upi" href="#">Pay with UPI app <span class="arrow">&rarr;</span></a>
+          <p class="paycard__how">Scan with any UPI app &mdash; GPay, PhonePe, Paytm or BHIM.
              The amount and payment note are filled in for you.</p>
-
-          <!-- UPI apps block "pay" links to a personal UPI ID, so on a phone the
-               shooter saves the QR and scans it from the gallery instead. -->
-          <a class="btn btn--gold paycard__save" data-done="save" href="#" download>Save QR image</a>
-          <ol class="paycard__steps">
-            <li>Tap <b>Save QR image</b>.</li>
-            <li>Open GPay, PhonePe or Paytm and tap <b>Scan</b>.</li>
-            <li>Pick the saved image from your gallery &mdash; the amount and note fill in.</li>
-          </ol>
-
           <div class="paycard__ref">
             <span>Payment note</span>
             <b data-done="ref"></b>
-            <button type="button" class="paycard__copy" data-copy="ref">Copy</button>
             <small>Keep this in the note so we can match your payment.</small>
           </div>
-
-          <div class="paycard__upi">
-            <span>Or pay to UPI ID</span>
-            <b data-done="upiid">bhopal10mshootingrange-3@okaxis</b>
-            <button type="button" class="paycard__copy" data-copy="upiid">Copy UPI ID</button>
-            <small>Enter <span data-done="amt2">&#8377;500</span> and paste the payment note into the message.</small>
-          </div>
+          <p class="paycard__upi">UPI ID <b>bhopal10mshootingrange-3@okaxis</b></p>
+          <a class="paycard__save" data-done="save" href="#" download>Save QR image</a>
         </div>
 
         <p class="nscc-done__mail">The range has been notified.
