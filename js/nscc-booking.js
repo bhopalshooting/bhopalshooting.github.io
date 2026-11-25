@@ -18,7 +18,8 @@
     ],
     LANES: 4,
     WHATSAPP: '917869139088',
-    FEE: '500'   // rupees per 2-hour session; payment QR is sent on WhatsApp
+    FEE: '500',  // rupees per 2-hour session; payment QR is sent on WhatsApp
+    UPI_ID: 'bhopal10mshootingrange-3@okaxis'
   };
 
   var IST_OFFSET_MS = 5.5 * 3600 * 1000;
@@ -336,7 +337,7 @@
       'Email: ' + b.email,
       'Team/State: ' + (b.team || '-'),
       '',
-      'Please send the payment QR for Rs ' + CONFIG.FEE + '.'].join('\n');
+      'Note: This booking will be confirmed once the shooter pays Rs ' + CONFIG.FEE + ' to UPI ID ' + CONFIG.UPI_ID + '.'].join('\n');
     return 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(text);
   }
 
@@ -355,7 +356,7 @@
         'Name: ' + b.name, 'Phone: ' + b.phone, 'Email: ' + (b.email || '-'),
         'Team/State: ' + (b.team || '-'),
         '',
-        'Please send the payment QR for Rs ' + CONFIG.FEE + '.'].join('\n');
+        'Note: This booking will be confirmed once the shooter pays Rs ' + CONFIG.FEE + ' to UPI ID ' + CONFIG.UPI_ID + '.'].join('\n');
       setStatus('WhatsApp is opening with your request. Send it and we’ll reply with the payment QR.');
       window.open('https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
       return;
