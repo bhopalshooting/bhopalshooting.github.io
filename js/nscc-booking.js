@@ -14,7 +14,8 @@
       { id: '12-14', start: 12, label: '12 – 2 PM' },
       { id: '14-16', start: 14, label: '2 – 4 PM' },
       { id: '16-18', start: 16, label: '4 – 6 PM' },
-      { id: '18-20', start: 18, label: '6 – 8 PM' }
+      { id: '18-20', start: 18, label: '6 – 8 PM' },
+      { id: '20-22', start: 20, label: '8 – 10 PM' }
     ],
     LANES: 4,
     WHATSAPP: '917869139088',

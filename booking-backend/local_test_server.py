@@ -12,7 +12,7 @@ from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 IST = timezone(timedelta(hours=5, minutes=30))
-SESSIONS = {'08-10': 8, '10-12': 10, '12-14': 12, '14-16': 14, '16-18': 16, '18-20': 18}
+SESSIONS = {'08-10': 8, '10-12': 10, '12-14': 12, '14-16': 14, '16-18': 16, '18-20': 18, '20-22': 20}
 LANES = 4
 rows = []
 

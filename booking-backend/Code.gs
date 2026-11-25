@@ -22,7 +22,8 @@ var CONFIG = {
     '12-14': [12, '12 – 2 PM'],
     '14-16': [14, '2 – 4 PM'],
     '16-18': [16, '4 – 6 PM'],
-    '18-20': [18, '6 – 8 PM']
+    '18-20': [18, '6 – 8 PM'],
+    '20-22': [20, '8 – 10 PM']
   },
   LANES: 4,                     // shooters per session (keep in step with LANES in js/nscc-booking.js)
   DISCIPLINES: ['Rifle', 'Pistol'],

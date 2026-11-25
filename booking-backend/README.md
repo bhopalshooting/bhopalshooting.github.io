@@ -49,7 +49,7 @@ To check the deployment, open `<web app URL>?action=slots` in a browser. You sho
 - **To cancel a booking**, set its **Status** cell to `Cancelled`. The lane becomes free
   on the site straight away.
 - **To block a lane** (maintenance, private use), add a row by hand with the date
-  (`2026-12-05`), session id (`08-10`, `10-12`, `12-14`, `14-16`, `16-18` or `18-20`),
+  (`2026-12-05`), session id (`08-10`, `10-12`, `12-14`, `14-16`, `16-18`, `18-20` or `20-22`),
   lane number and Status `Confirmed`. Fill every lane to close a whole session.
 
 ## Changing dates, sessions or lanes
@@ -74,7 +74,7 @@ live site.
   deployment rather than a new deployment. A new deployment gets a new URL, which would
   then have to be updated in `nscc.html`.
 - Gmail accounts can send to about 100 recipients a day from Apps Script. A completely
-  full day is 24 bookings (6 sessions × 4 lanes), at most 48 emails, so there is room.
+  full day is 28 bookings (7 sessions × 4 lanes), at most 56 emails, so there is room.
 - Emails are sent from the Google account that owns the script, so shooters see that
   address as the sender. Use the range's own Google account if you have one.
 - The first time you authorise, Google warns that the app "isn't verified". That is
