@@ -16,7 +16,7 @@ bookings register.
 4. **Set the notification address.** Still in **Project Settings → Script Properties**,
    add a property:
    - Property: `NOTIFY_EMAIL`
-   - Value: the address that should receive every booking
+   - Value: the address that should receive every booking (e.g. the range owner's Gmail)
 
    (The address lives here rather than in the code because this repository is public.)
 5. **Deploy.** Click **Deploy → New deployment**, choose type **Web app**, and set:
@@ -38,25 +38,44 @@ To check the deployment, open `<web app URL>?action=slots` in a browser. You sho
 
 ## Day-to-day
 
-- Every booking adds a row to the **Bookings** tab and emails `NOTIFY_EMAIL`. If the
-  shooter gave an email address, they get a confirmation with their reference too.
+- Every booking adds a row to the **Bookings** tab and emails `NOTIFY_EMAIL`. The shooter
+  (email is required on the form) gets a confirmation with their reference and the UPI
+  payment details. Replying to your notification email goes straight to the shooter.
+- **Matching payments.** Each booking's UPI QR code puts its reference (e.g. `NSCC-51AC6C`)
+  in the payment note. New bookings start with **Payment** = `Pending`. When you see that
+  reference on a received payment in your UPI app or bank statement, set **Payment** to
+  `Paid`. Filter the column for `Pending` to see who still owes. (The column is added
+  automatically to an existing Bookings sheet on the next booking.)
 - **To cancel a booking**, set its **Status** cell to `Cancelled`. The lane becomes free
   on the site straight away.
 - **To block a lane** (maintenance, private use), add a row by hand with the date
-  (`2026-12-05`), session id (`09-11`, `11-13`, `13-15`, `15-17`, `17-19` or `19-21`),
+  (`2026-12-05`), session id (`08-10`, `10-12`, `12-14`, `14-16`, `16-18` or `18-20`),
   lane number and Status `Confirmed`. Fill every lane to close a whole session.
 
 ## Changing dates, sessions or lanes
 
-Dates and sessions live in `CONFIG` in **both** `Code.gs` and `js/nscc-booking.js`;
-change them together. The number of lanes (`LANES`) is only in `Code.gs`: the site is
-told just which sessions are full or partly booked, so it never shows capacity. After
-editing `Code.gs`, publish it with **Deploy → Manage deployments → Edit → New version**.
+Dates, sessions and the number of lanes (`LANES`) live in `CONFIG` in **both**
+`Code.gs` and `js/nscc-booking.js`; change them together. The fee is `FEE` in `Code.gs`
+(emails) and `UPI.amount` in `js/nscc-booking.js` (QR code), plus the text in
+`nscc.html`. After editing `Code.gs`, publish it with
+**Deploy → Manage deployments → Edit → New version**.
+
+## Testing locally
+
+Run `python3 -m http.server 8000` in the repo and, in a second terminal,
+`python3 booking-backend/local_test_server.py`, then open
+`http://localhost:8000/nscc.html?api=local`. The local server speaks the same API as
+`Code.gs` but keeps bookings in memory and sends no email. `?api=` is ignored on the
+live site.
 
 ## Notes
 
 - If you edit the code after deploying, publish a **new version** of the existing
   deployment rather than a new deployment. A new deployment gets a new URL, which would
   then have to be updated in `nscc.html`.
-- Gmail accounts can send about 100 emails a day from Apps Script. A completely full day
-  is 12 bookings (6 sessions × 2 lanes), at most 24 emails, so there is plenty of room.
+- Gmail accounts can send to about 100 recipients a day from Apps Script. A completely
+  full day is 24 bookings (6 sessions × 4 lanes), at most 48 emails, so there is room.
+- Emails are sent from the Google account that owns the script, so shooters see that
+  address as the sender. Use the range's own Google account if you have one.
+- The first time you authorise, Google warns that the app "isn't verified". That is
+  normal for a script you wrote yourself: choose **Advanced → Go to (project name)**.

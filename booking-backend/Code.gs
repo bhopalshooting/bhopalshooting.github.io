@@ -33,8 +33,9 @@ var CONFIG = {
 };
 
 var HEADERS = ['Ref', 'Booked at (IST)', 'Date', 'Session', 'Lane', 'Discipline',
-               'Name', 'Phone', 'Email', 'Team / State', 'Notes', 'Status'];
-var COL = { ref: 0, date: 2, session: 3, lane: 4, phone: 7, status: 11 };
+               'Name', 'Phone', 'Email', 'Team / State', 'Notes', 'Status', 'Payment'];
+var COL = { ref: 0, date: 2, session: 3, lane: 4, phone: 7, status: 11, payment: 12 };
+var PAYMENT_STATES = ['Pending', 'Paid'];
 
 /* ------------------------------------------------------------- endpoints */
 
@@ -103,7 +104,7 @@ function doPost(e) {
 
     var row = [booking.ref, booking.bookedAt, booking.date, booking.session,
                String(booking.lane), booking.discipline, booking.name, booking.phone,
-               booking.email, booking.team, booking.notes, 'Confirmed'].map(cell_);
+               booking.email, booking.team, booking.notes, 'Confirmed', 'Pending'].map(cell_);
     sheet.getRange(sheet.getLastRow() + 1, 1, 1, row.length)
          .setNumberFormat('@')
          .setValues([row]);
@@ -131,7 +132,7 @@ function validate_(d) {
   if (!d.name || String(d.name).trim().length < 2) return 'Please enter your name.';
   var digits = normPhone_(d.phone);
   if (digits.length < 10 || digits.length > 15) return 'Please enter a valid phone number.';
-  if (d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(d.email))) return 'Please enter a valid email address.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(d.email || ''))) return 'Please enter a valid email address.';
   return '';
 }
 
@@ -146,7 +147,24 @@ function sheet_() {
     sh.getRange('L2:L').setDataValidation(
       SpreadsheetApp.newDataValidation().requireValueInList(['Confirmed', 'Cancelled'], true).build());
   }
+  ensurePaymentColumn_(sh);
   return sh;
+}
+
+/** Adds the Payment column (Pending / Paid dropdown) — also to a sheet created before it existed. */
+function ensurePaymentColumn_(sh) {
+  var col = COL.payment + 1;
+  var head = sh.getRange(1, col);
+  if (head.getValue() === 'Payment') return;
+  head.setValue('Payment').setFontWeight('bold');
+  sh.getRange(2, col, sh.getMaxRows() - 1, 1).setDataValidation(
+    SpreadsheetApp.newDataValidation().requireValueInList(PAYMENT_STATES, true).build());
+  // Bookings made before this column existed start as Pending.
+  var n = sh.getLastRow() - 1;
+  if (n > 0) {
+    var refs = sh.getRange(2, 1, n, 1).getValues();
+    sh.getRange(2, col, n, 1).setValues(refs.map(function (r) { return [r[0] ? 'Pending' : '']; }));
+  }
 }
 
 /** Bookings that still hold a lane (anything not marked Cancelled). */
@@ -190,7 +208,9 @@ function notify_(b) {
     'Team/State: ' + (b.team || '-'),
     'Notes:      ' + (b.notes || '-'),
     '',
-    'Fee:        ' + CONFIG.FEE + ' by UPI to ' + CONFIG.UPI_ID + ' (payment note: NSCC practice ' + b.ref + ')',
+    'Fee:        ' + CONFIG.FEE + ' by UPI to ' + CONFIG.UPI_ID,
+    'Payment:    Pending — look for "' + b.ref + '" in the payment note in your UPI app,',
+    '            then set Payment to "Paid" in the Bookings sheet.',
     '',
     'To cancel, set Status to "Cancelled" in the Bookings sheet — the lane becomes free again.'
   ];
@@ -215,7 +235,8 @@ function notify_(b) {
          'Discipline: ' + b.discipline,
          'Reference:  ' + b.ref, '',
          'Practice fee: ' + CONFIG.FEE + ' for the 2-hour session.',
-         'Pay by UPI to ' + CONFIG.UPI_ID + ' and put ' + b.ref + ' in the payment note.', '',
+         'Pay by UPI to ' + CONFIG.UPI_ID + ' and put ' + b.ref + ' in the payment note',
+         '(scanning the QR code on the booking page fills this in for you).', '',
          'Need to change or cancel? Call or WhatsApp +91 78691 39088 and quote your reference.', '',
          'Bhopal Shooting Range Academy — Aim · Focus · Achieve'].join('\n'),
         { name: 'Bhopal Shooting Range Academy' });

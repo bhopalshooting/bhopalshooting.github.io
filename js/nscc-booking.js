@@ -17,8 +17,6 @@
       { id: '18-20', start: 18, label: '6 – 8 PM' }
     ],
     LANES: 4,
-    // Sessions shown as booked out on every day (all lanes taken).
-    BLOCKED: ['10-12', '14-16'],
     WHATSAPP: '917869139088',
     UPI: { id: 'bhopal10mshootingrange-3@okaxis', name: 'Bhopal Shooting Range Academy', amount: '500' }
   };
@@ -32,6 +30,12 @@
   if (!form) return;
 
   var endpoint = (form.getAttribute('data-endpoint') || '').trim();
+  // Local testing only: ?api=local (or ?api=<url>) on localhost points at
+  // booking-backend/local_test_server.py. Ignored on the live site.
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    var apiParam = new URLSearchParams(location.search).get('api');
+    if (apiParam) endpoint = apiParam === 'local' ? 'http://127.0.0.1:8001/' : apiParam;
+  }
   var calEl = document.getElementById('nscc-cal');
   var sessionsEl = document.getElementById('nscc-sessions');
   var sessionsHint = document.getElementById('nscc-sessions-hint');
@@ -64,7 +68,6 @@
   function takenLanes(date, s) {
     var all = [];
     for (var i = 1; i <= CONFIG.LANES; i++) all.push(i);
-    if (CONFIG.BLOCKED.indexOf(s.id) !== -1) return all;
     var key = date + '|' + s.id;
     if (state.full[key]) return all;
     return state.taken[key] || [];
@@ -268,7 +271,6 @@
       phone: String(d.get('phone') || '').trim(),
       email: String(d.get('email') || '').trim(),
       team: String(d.get('team') || '').trim(),
-      notes: String(d.get('notes') || '').trim(),
       website: String(d.get('website') || '')
     };
   }
@@ -279,7 +281,8 @@
     if (b.name.length < 2) return 'Please enter your name.';
     var digits = b.phone.replace(/\D/g, '');
     if (digits.length < 10 || digits.length > 15) return 'Please enter a valid phone number.';
-    if (b.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)) return 'Please check your email address.';
+    if (!b.email) return 'Please enter your email — your confirmation and payment details are sent there.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)) return 'Please check your email address.';
     return '';
   }
 
@@ -292,7 +295,10 @@
     renderPayment(res.ref);
     form.hidden = true;
     doneEl.hidden = false;
-    doneEl.focus();
+    // The confirmation is much shorter than the form it replaces, so bring its top
+    // (and the payment QR) into view; scroll-padding keeps it below the sticky header.
+    doneEl.scrollIntoView({ block: 'start' });
+    doneEl.focus({ preventScroll: true });
   }
 
   /* ------------------------------------------------------------- payment */
@@ -300,19 +306,47 @@
     return 'upi://pay?pa=' + CONFIG.UPI.id +
       '&pn=' + encodeURIComponent(CONFIG.UPI.name) +
       '&am=' + CONFIG.UPI.amount + '&cu=INR' +
-      '&tn=' + encodeURIComponent('NSCC practice ' + ref);
+      '&tn=' + encodeURIComponent(ref);   // reference only, so a truncated bank statement still shows it
   }
 
   function renderPayment(ref) {
     var link = upiLink(ref);
+    doneEl.querySelector('[data-done="amt"]').textContent = '₹' + CONFIG.UPI.amount;
     doneEl.querySelector('[data-done="upi"]').setAttribute('href', link);
     var box = doneEl.querySelector('[data-done="qr"]');
-    if (typeof window.qrcode !== 'function') { box.hidden = true; return; }
+    var save = doneEl.querySelector('[data-done="save"]');
+    if (typeof window.qrcode !== 'function') { box.hidden = true; save.hidden = true; return; }
     var qr = window.qrcode(0, 'M');
     qr.addData(link);
     qr.make();
     box.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
     box.hidden = false;
+    // A PNG copy, so a shooter on a phone can pay via "scan from gallery" in their UPI app.
+    var png = qrPng(qr, ref);
+    save.hidden = !png;
+    if (png) { save.href = png; save.setAttribute('download', ref + '-upi-qr.png'); }
+  }
+
+  function qrPng(qr, ref) {
+    try {
+      var n = qr.getModuleCount(), cell = 10, quiet = 4 * cell, size = n * cell + quiet * 2, foot = 70;
+      var c = document.createElement('canvas');
+      c.width = size; c.height = size + foot;
+      var g = c.getContext('2d');
+      g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+      g.fillStyle = '#000';
+      for (var r = 0; r < n; r++) for (var col = 0; col < n; col++) {
+        if (qr.isDark(r, col)) g.fillRect(quiet + col * cell, quiet + r * cell, cell, cell);
+      }
+      g.textAlign = 'center';
+      g.font = 'bold 26px sans-serif';
+      g.fillText('₹' + CONFIG.UPI.amount + '  ·  ' + ref, size / 2, size + 18);
+      g.font = '18px sans-serif';
+      g.fillText(CONFIG.UPI.name, size / 2, size + 48);
+      return c.toDataURL('image/png');
+    } catch (err) {
+      return '';
+    }
   }
 
   form.addEventListener('submit', function (e) {
@@ -328,7 +362,7 @@
       var text = ['NSCC practice slot request',
         'Date: ' + prettyDate(b.date), 'Session: ' + s.label, 'Lane: ' + b.lane,
         'Name: ' + b.name, 'Phone: ' + b.phone, 'Email: ' + (b.email || '-'),
-        'Team/State: ' + (b.team || '-'), 'Notes: ' + (b.notes || '-'),
+        'Team/State: ' + (b.team || '-'),
         '',
         'Fee: Rs ' + CONFIG.UPI.amount + ' per session.',
         'To confirm this slot, pay Rs ' + CONFIG.UPI.amount + ' by UPI to ' + CONFIG.UPI.id +

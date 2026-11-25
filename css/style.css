@@ -169,6 +169,30 @@ p  { margin: 0 0 1.1em; }
 }
 .nav__cta { margin-left: .5rem; }
 
+/* Phones/tablets: NSCC slot booking stays in the header, outside the menu */
+.topbar__book { display: none; }
+@media (max-width: 1080px) {
+  .topbar__inner { gap: .75rem; }
+  .topbar__book {
+    display: inline-flex; white-space: nowrap; gap: 0;
+    padding: .65rem .9rem; font-size: .72rem; letter-spacing: .1em;
+  }
+  .topbar__book-x { margin-right: .4em; }
+}
+@media (max-width: 560px) {
+  .brand { gap: .6rem; min-width: 0; }
+  .brand__mark { width: 46px; height: 46px; }
+  .brand__tag { display: none; }
+}
+@media (max-width: 480px) { .topbar__book-x { display: none; } }
+@media (max-width: 400px) { .brand__sub { display: none; } }
+@media (max-width: 360px) {
+  .topbar__inner { gap: .5rem; }
+  .brand { gap: .45rem; }
+  .brand__mark { width: 40px; height: 40px; }
+  .topbar__book { padding: .6rem .65rem; letter-spacing: .06em; }
+}
+
 .navtoggle {
   display: none; background: none; border: 1px solid rgba(255,255,255,.35);
   color: var(--white); width: 44px; height: 40px; border-radius: 2px;
@@ -890,28 +914,38 @@ table.results td:first-child { font-weight: 600; color: var(--navy); white-space
   .sessionopt b { font-size: .9rem; }
 }
 
-/* UPI payment on the booking confirmation */
 .nscc-facts span small { font-family: var(--sans); font-size: .78rem; color: var(--ink-soft); }
-.paybox {
-  display: grid; grid-template-columns: 180px 1fr; gap: 1.4rem; align-items: center;
-  margin: 1.4rem 0; padding: 1.2rem; background: var(--paper); border: 1px solid var(--line);
-}
-.paybox__qr { background: var(--white); padding: 6px; border: 1px solid var(--line); }
-.paybox__qr svg { display: block; width: 100%; height: auto; }
-.paybox__text p { margin-bottom: .6rem; font-size: .9rem; color: var(--ink-soft); }
-.paybox__text .eyebrow { margin-bottom: .2rem; font-size: .74rem; }
-.paybox__text .paybox__amt { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--navy); line-height: 1.1; }
-.paybox__upi b { display: block; overflow-wrap: anywhere; }
-.paybox__upi b { color: var(--navy); }
-.paybox__app { margin-top: .3rem; }
-@media (hover: hover) and (pointer: fine) { .paybox__app { display: none; } }
-@media (max-width: 560px) {
-  .paybox { grid-template-columns: 1fr; justify-items: center; text-align: center; }
-  .paybox__qr { width: min(220px, 100%); }
-}
 
 /* phones: booking form first, intro after it */
 @media (max-width: 900px) {
   .nscc-book { order: -1; }
   #slots { padding-top: 1.5rem; }
 }
+
+/* confirmation: payment first, QR large */
+.nscc-done .eyebrow { margin-bottom: .4rem; }
+.nscc-done .nscc-done__when { margin-bottom: 1.2rem; }
+.paycard {
+  text-align: center; padding: clamp(1.2rem, 3vw, 1.8rem);
+  background: var(--paper); border: 2px solid var(--gold); margin-bottom: 1.4rem;
+}
+.paycard h3 { font-size: clamp(1.5rem, 3vw, 1.9rem); margin-bottom: 1rem; }
+.paycard__qr {
+  width: min(300px, 100%); margin: 0 auto 1rem; padding: 8px;
+  background: var(--white); border: 1px solid var(--line);
+}
+.paycard__qr svg { display: block; width: 100%; height: auto; }
+.paycard__app { margin-bottom: 1rem; }
+@media (hover: hover) and (pointer: fine) { .paycard__app { display: none; } }
+.paycard__how { font-size: .9rem; color: var(--ink-soft); max-width: 40ch; margin: 0 auto 1rem; }
+.paycard__ref {
+  display: grid; gap: .1rem; justify-items: center; padding: .8rem 1rem; margin: 0 auto 1rem;
+  max-width: 320px; background: var(--white); border: 1px dashed var(--gold-dim);
+}
+.paycard__ref span { font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.paycard__ref b { font-family: var(--serif); font-size: 1.6rem; color: var(--navy); letter-spacing: .04em; user-select: all; }
+.paycard__ref small { font-size: .78rem; color: var(--ink-soft); }
+.paycard__upi { font-size: .88rem; color: var(--ink-soft); margin-bottom: .5rem; }
+.paycard__upi b { display: block; color: var(--navy); overflow-wrap: anywhere; }
+.paycard__save { font-size: .82rem; font-weight: 700; color: var(--navy); text-decoration: underline; }
+.nscc-done__mail { font-size: .92rem; }

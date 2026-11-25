@@ -53,6 +53,7 @@
       </span>
     </a>
 
+    <a class="btn btn--gold topbar__book" href="#slots"><span class="topbar__book-x">Book </span>NSCC Slot</a>
     <button class="navtoggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">&#9776;</button>
 
     <nav class="nav" id="primary-nav">
@@ -74,9 +75,6 @@
   <div class="wrap" style="position:relative;z-index:2">
     <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; NSCC Practice</p>
     <h1>69th NSCC Practice Slots</h1>
-    <p>Shooting at the 69th National Shooting Championship Competitions? Keep your training going while
-       you&rsquo;re in Bhopal &mdash; book a two-hour rifle or pistol lane at our range, any day from
-       20&nbsp;November to 4&nbsp;January, 9&nbsp;AM to 9&nbsp;PM.</p>
   </div>
 </section>
 
@@ -115,7 +113,7 @@
     </div>
 
     <div class="nscc-book reveal">
-      <form class="form nscc-form" id="nscc-form" novalidate data-endpoint="">
+      <form class="form nscc-form" id="nscc-form" novalidate data-endpoint="https://script.google.com/macros/s/AKfycbxANeIjSoNHrl-CtG0xBWh4HERI_ioaGHFIo566zJS3lSuxTd5nj469cTjIsLuME7qYPg/exec">
         <h3>Reserve Your Slot</h3>
         <p class="form__hint">&#8377;500 per 2-hour session &middot; 4 lanes per session &middot; all times are IST</p>
         <p class="nscc-notice" id="nscc-notice" role="status" hidden></p>
@@ -157,17 +155,13 @@
               <input id="n-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+91">
             </div>
             <div>
-              <label for="n-email">Email <span class="optional">(for confirmation)</span></label>
-              <input id="n-email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+              <label for="n-email">Email <span class="optional">(for your confirmation)</span></label>
+              <input id="n-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
             </div>
           </div>
           <div class="field">
             <label for="n-team">State / Unit Team <span class="optional">(optional)</span></label>
             <input id="n-team" name="team" type="text" placeholder="e.g. Maharashtra, Army, Railways">
-          </div>
-          <div class="field">
-            <label for="n-notes">Notes <span class="optional">(optional)</span></label>
-            <textarea id="n-notes" name="notes" rows="2" placeholder="Event you are training for, equipment questions, etc."></textarea>
           </div>
           <div class="hp" aria-hidden="true">
             <label for="n-website">Website</label>
@@ -185,26 +179,26 @@
       </form>
 
       <div class="form nscc-done" id="nscc-done" tabindex="-1" hidden>
-        <p class="eyebrow">Booking confirmed</p>
-        <h3 data-done="lane">Lane 1</h3>
-        <p class="nscc-done__when" data-done="when"></p>
-        <dl>
-          <div><dt>Reference</dt><dd data-done="ref"></dd></div>
-        </dl>
-        <p>The range has been notified of your booking.
-           <span data-done="mail">A confirmation email is on its way to you.</span></p>
+        <p class="eyebrow">Lane reserved &middot; one step left</p>
+        <p class="nscc-done__when"><span data-done="when"></span> &middot; <span data-done="lane">Lane 1</span></p>
 
-        <div class="paybox">
-          <div class="paybox__qr" data-done="qr" role="img" aria-label="UPI payment QR code"></div>
-          <div class="paybox__text">
-            <p class="eyebrow">Practice fee</p>
-            <p class="paybox__amt">&#8377;500</p>
-            <p>Scan with any UPI app (GPay, PhonePe, Paytm, BHIM). The amount and your reference are
-               filled in for you.</p>
-            <p class="paybox__upi">UPI ID: <b>bhopal10mshootingrange-3@okaxis</b></p>
-            <a class="btn btn--gold paybox__app" data-done="upi" href="#">Pay with UPI app</a>
+        <div class="paycard">
+          <h3>Pay <span data-done="amt">&#8377;500</span> to confirm</h3>
+          <div class="paycard__qr" data-done="qr" role="img" aria-label="UPI payment QR code"></div>
+          <a class="btn btn--gold paycard__app" data-done="upi" href="#">Pay with UPI app <span class="arrow">&rarr;</span></a>
+          <p class="paycard__how">Scan with any UPI app &mdash; GPay, PhonePe, Paytm or BHIM.
+             The amount and payment note are filled in for you.</p>
+          <div class="paycard__ref">
+            <span>Payment note</span>
+            <b data-done="ref"></b>
+            <small>Keep this in the note so we can match your payment.</small>
           </div>
+          <p class="paycard__upi">UPI ID <b>bhopal10mshootingrange-3@okaxis</b></p>
+          <a class="paycard__save" data-done="save" href="#" download>Save QR image</a>
         </div>
+
+        <p class="nscc-done__mail">The range has been notified.
+           <span data-done="mail">A confirmation email with these payment details is on its way to you.</span></p>
         <p class="form__note">To change or cancel, call or WhatsApp
           <a href="tel:+917869139088" style="color:var(--navy);font-weight:700">+91 78691 39088</a> with your reference.</p>
         <button class="btn btn--outline" id="nscc-again" type="button" style="margin-top:1.2rem">Book another slot</button>
