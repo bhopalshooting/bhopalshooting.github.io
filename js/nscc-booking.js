@@ -312,7 +312,8 @@
   function renderPayment(ref) {
     var link = upiLink(ref);
     doneEl.querySelector('[data-done="amt"]').textContent = '₹' + CONFIG.UPI.amount;
-    doneEl.querySelector('[data-done="upi"]').setAttribute('href', link);
+    doneEl.querySelector('[data-done="amt2"]').textContent = '₹' + CONFIG.UPI.amount;
+    doneEl.querySelector('[data-done="upiid"]').textContent = CONFIG.UPI.id;
     var box = doneEl.querySelector('[data-done="qr"]');
     var save = doneEl.querySelector('[data-done="save"]');
     if (typeof window.qrcode !== 'function') { box.hidden = true; save.hidden = true; return; }
@@ -348,6 +349,30 @@
       return '';
     }
   }
+
+  // Copy buttons for the payment note and UPI ID.
+  doneEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    var text = doneEl.querySelector('[data-done="' + btn.getAttribute('data-copy') + '"]').textContent.trim();
+    var label = btn.getAttribute('data-label') || btn.textContent;
+    btn.setAttribute('data-label', label);
+    function done(ok) {
+      btn.textContent = ok ? 'Copied ✓' : 'Copy failed — select it above';
+      setTimeout(function () { btn.textContent = label; }, 2000);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+      document.body.removeChild(ta);
+      done(ok);
+    }
+  });
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
