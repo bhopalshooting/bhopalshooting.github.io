@@ -338,7 +338,8 @@
       'Email: ' + b.email,
       'Team/State: ' + (b.team || '-'),
       '',
-      'Note: This booking will be confirmed once the shooter pays Rs ' + CONFIG.FEE + ' to UPI ID ' + CONFIG.UPI_ID + '.'].join('\n');
+      'Note: This booking will be confirmed once the shooter pays Rs ' + CONFIG.FEE + ' to UPI ID ' + CONFIG.UPI_ID + '.',
+      'Use reference *' + res.ref + '* in the remarks for the payment.'].join('\n');   // *…* = bold in WhatsApp
     return 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(text);
   }
 
