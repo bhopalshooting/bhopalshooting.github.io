@@ -18,7 +18,7 @@
     ],
     LANES: 4,
     WHATSAPP: '917869139088',
-    UPI: { id: 'bhopal10mshootingrange-3@okaxis', name: 'Bhopal Shooting Range Academy', amount: '500' }
+    UPI: { id: 'rishisoni19918@ybl', name: 'Bhopal Shooting Range Academy', amount: '500' }
   };
 
   var IST_OFFSET_MS = 5.5 * 3600 * 1000;

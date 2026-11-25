@@ -27,7 +27,7 @@ var CONFIG = {
   LANES: 4,                     // shooters per session (keep in step with LANES in js/nscc-booking.js)
   DISCIPLINES: ['Rifle', 'Pistol'],
   FEE: '₹500',
-  UPI_ID: 'bhopal10mshootingrange-3@okaxis',
+  UPI_ID: 'rishisoni19918@ybl',
   TZ: 'Asia/Kolkata',
   SHEET: 'Bookings'
 };
