@@ -1105,3 +1105,28 @@ table.results td:first-child { font-weight: 600; color: var(--navy); white-space
   .rangeband__caption .wrap { grid-template-columns: 1fr; }
   .rangeband__caption .wrap > .btn { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 1rem; }
 }
+
+/* ------------------------------------------------ home: the range ------ */
+.rangefeat { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.rangefeat__main { margin: 0; }
+.rangefeat__main img { width: 100%; height: auto; box-shadow: var(--shadow-lg); border: 1px solid var(--navy-line); }
+.rangefeat__text p { color: rgba(255,255,255,.8); font-size: 1.05rem; }
+.rangefeat__text b { color: var(--gold); }
+.rangefeat__second { margin: 1.6rem 0; }
+.rangefeat__second img { width: 100%; height: auto; box-shadow: var(--shadow); }
+.rangefeat__actions { margin: 0; }
+@media (max-width: 900px) {
+  .rangefeat { grid-template-columns: minmax(0, 1fr); }
+  .rangefeat__main { max-width: 420px; }
+}
+
+/* testimonials: Olympian quote + visitor photo side by side */
+.olympians { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 1.4rem; margin-bottom: 1.8rem; align-items: stretch; }
+.olympians .olympian { margin-bottom: 0; }
+.visitor { margin: 0; background: var(--white); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; }
+.visitor img { width: 100%; flex: 1; min-height: 0; object-fit: cover; object-position: 50% 30%; aspect-ratio: 4 / 4.2; }
+.visitor figcaption { padding: .9rem 1.1rem 1rem; border-top: 3px solid var(--gold); }
+.visitor figcaption b { display: block; color: var(--navy); font-size: 1.05rem; }
+.visitor figcaption span { font-size: .84rem; color: var(--ink-soft); }
+@media (max-width: 800px) { .olympians { grid-template-columns: minmax(0, 1fr); } .visitor img { aspect-ratio: 4 / 3.6; } }
+.visitor img { object-position: 50% 0; }
