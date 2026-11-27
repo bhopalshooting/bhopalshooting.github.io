@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NSCC Practice Slots | Bhopal Shooting Range Academy</title>
-<meta name="description" content="Shooting at the 69th NSCC? Book a 2-hour rifle or pistol practice lane at Bhopal Shooting Range Academy, any day 8 AM–10 PM from 20 November to 4 January.">
+<meta name="description" content="Shooting at the 69th NSCC? Book a 2-hour rifle or pistol practice lane at Bhopal Shooting Range Academy, any day 8 AM–10 PM from 20 November 2026 to 4 January 2027. ₹500 per shooter per session.">
 <link rel="icon" href="images/Bhopal%20shooting%20Range%20LOGO.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,32 +90,51 @@
       </p>
 
       <ul class="ticklist">
-        <li>Open daily, 20 November &ndash; 4 January</li>
+        <li>Open daily, 20 November 2026 &ndash; 4 January 2027</li>
         <li>Two-hour sessions from 8:00 AM to 10:00 PM</li>
         <li>4 lanes per session &mdash; pick the one you want</li>
+        <li>One shooter per booking &mdash; two shooters cannot share a session</li>
       </ul>
 
       <div class="nscc-facts">
         <div><b>Session length</b><span>2 hours</span></div>
         <div><b>Open</b><span>8 AM &ndash; 10 PM</span></div>
-        <div><b>Practice fee</b><span>&#8377;500 <small>/ 2-hour session</small></span></div>
+        <div><b>Practice fee</b><span>&#8377;500 <small>per shooter</small></span></div>
       </div>
 
-      <p class="nscc-help">
-        After you book, WhatsApp opens with your booking &mdash; send it and we&rsquo;ll reply with
-        the payment QR. Your lane is confirmed once you&rsquo;ve paid.
-      </p>
+      <p class="nscc-fee">&#8377;500 per shooter for one two-hour practice session.
+        <span>Two shooters cannot be clubbed in one session &mdash; each shooter books their own lane.</span></p>
 
-      <p class="nscc-help">
-        Need to change or cancel? Call or WhatsApp
-        <a href="tel:+917869139088">+91 78691 39088</a> and quote your booking reference.
-      </p>
+      <p class="nscc-own">Please bring your own air pistol / air rifle, pellets and shooting equipment.
+        The range does not provide them.</p>
+
+      <p class="nscc-rulelink"><a href="#rules">Read the range rules &amp; booking terms before you book &rarr;</a></p>
+
+      <div class="nscc-help">
+        <b>What you receive, and where</b>
+        <ul class="nscc-channels">
+          <li><span>Email</span> Your booking confirmation with your reference number.</li>
+          <li><span>WhatsApp</span> The payment QR for &#8377;500. After booking, WhatsApp opens with your
+            booking &mdash; send it and we reply with the QR.</li>
+          <li><span>Confirmed</span> Your lane is confirmed once you&rsquo;ve paid.</li>
+        </ul>
+      </div>
+
+      <div class="nscc-help">
+        <b>Rescheduling requests</b>
+        <p>To move to another date or session, call or WhatsApp
+          <a href="tel:+917869139088">+91 78691 39088</a> with your booking reference.
+          We&rsquo;ll move you if a lane is free in the new session.</p>
+        <b>Cancellation &amp; refunds</b>
+        <p>Bookings cannot be cancelled, and the practice fee is not refundable.</p>
+      </div>
     </div>
 
     <div class="nscc-book reveal">
       <form class="form nscc-form" id="nscc-form" novalidate data-endpoint="https://script.google.com/macros/s/AKfycbxANeIjSoNHrl-CtG0xBWh4HERI_ioaGHFIo566zJS3lSuxTd5nj469cTjIsLuME7qYPg/exec">
         <h3>Reserve Your Slot</h3>
-        <p class="form__hint">&#8377;500 per 2-hour session &middot; 4 lanes per session &middot; all times are IST</p>
+        <p class="form__hint">&#8377;500 per shooter for one 2-hour session &middot; one shooter per booking &middot; all times are IST
+          &middot; <a href="#rules" class="nscc-hintlink">Range rules</a></p>
         <p class="nscc-notice" id="nscc-notice" role="status" hidden></p>
 
         <fieldset class="step">
@@ -155,7 +174,7 @@
               <input id="n-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+91">
             </div>
             <div>
-              <label for="n-email">Email <span class="optional">(for your confirmation)</span></label>
+              <label for="n-email">Email <span class="optional">(booking confirmation is sent here)</span></label>
               <input id="n-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
             </div>
           </div>
@@ -168,6 +187,12 @@
             <input id="n-website" name="website" type="text" tabindex="-1" autocomplete="off">
           </div>
         </fieldset>
+
+        <label class="nscc-agree" for="n-agree">
+          <input id="n-agree" name="agree" type="checkbox" required>
+          <span>I have read the <a href="#rules">range rules</a> and will follow them. I am the only
+            shooter on this booking and will bring my own pistol / rifle, pellets and equipment.</span>
+        </label>
 
         <div class="nscc-summary">
           <span>Your slot</span>
@@ -195,11 +220,92 @@
 
         <p class="nscc-done__mail">The range has been notified.
            <span data-done="mail">A confirmation email with your reference is on its way to you.</span></p>
-        <p class="form__note">To change or cancel, call or WhatsApp
-          <a href="tel:+917869139088" style="color:var(--navy);font-weight:700">+91 78691 39088</a> with your reference.</p>
+        <p class="form__note">Rescheduling requests: call or WhatsApp
+          <a href="tel:+917869139088" style="color:var(--navy);font-weight:700">+91 78691 39088</a> with your reference.
+          Bookings cannot be cancelled or refunded.</p>
         <button class="btn btn--outline" id="nscc-again" type="button" style="margin-top:1.2rem">Book another slot</button>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section section--paper-alt" id="rules">
+  <div class="wrap nscc-rules reveal">
+    <p class="eyebrow">Please read before you book</p>
+    <h2>Range Rules &amp; Booking Terms</h2>
+    <hr class="rule">
+
+    <div class="nscc-photos">
+      <figure><img src="images/range-lanes-electronic.webp" alt="The 10 m range at Bhopal Shooting Range Academy with electronic targets on every lane" loading="lazy" width="475" height="770">
+        <figcaption>The range &mdash; lanes 1&ndash;4 have SIUS and Tachus electronic targets</figcaption></figure>
+      <figure><img src="images/electronic-targets%20sius.webp" alt="SIUS electronic target on the target wall" loading="lazy" width="1200" height="800">
+        <figcaption>SIUS electronic target</figcaption></figure>
+    </div>
+
+    <div class="nscc-rules__grid">
+      <div>
+        <h3>Booking</h3>
+        <ul>
+          <li>&#8377;500 per shooter for one two-hour practice session.</li>
+          <li>One shooter per booking. Two shooters cannot be clubbed in one session.</li>
+          <li>Bring your own air pistol / air rifle, pellets and shooting equipment. The range does not provide them.</li>
+          <li>Your lane is confirmed once the fee is paid.</li>
+          <li>Rescheduling requests: call or WhatsApp +91 78691 39088 with your reference. We&rsquo;ll move you if a lane is free.</li>
+          <li>Bookings cannot be cancelled, and the practice fee is not refundable.</li>
+        </ul>
+
+        <h3>Before you enter</h3>
+        <ul>
+          <li>Remove your shoes outside and place them in the rack. Only shooting shoes are allowed inside.</li>
+          <li>Only the shooter and one coach may enter the range. Parents, please wait patiently in the parents&rsquo; lounge.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>On the range</h3>
+        <ol>
+          <li>Keep silence in the range and on the premises.</li>
+          <li>Do not disturb other shooters, on or off the lane.</li>
+          <li>Use only the chair at your own lane.</li>
+          <li>Keep your bag and bottle under your chair.</li>
+          <li>No food or drinks inside the range. Eating inside the range leads to immediate suspension.</li>
+          <li>Any damage to range property will be charged at the full cost of damage and repair, with immediate suspension from the range.</li>
+          <li>SCATT and other laptops may be used only after informing the range in advance.</li>
+          <li>The lighting of the electronic targets can be changed only after informing the range in advance.</li>
+          <li>Using a safety flag is compulsory, not optional.</li>
+        </ol>
+      </div>
+    </div>
+
+    <details class="nscc-rules__hi" lang="hi">
+      <summary>नियम हिंदी में पढ़ें</summary>
+      <h3>बुकिंग</h3>
+      <ul>
+        <li>एक शूटर के लिए एक दो घंटे के प्रैक्टिस सेशन का शुल्क &#8377;500 है।</li>
+        <li>एक बुकिंग में केवल एक शूटर। दो शूटर एक सेशन में साथ नहीं जोड़े जा सकते।</li>
+        <li>अपनी एयर पिस्टल / एयर राइफल, पैलेट्स और शूटिंग उपकरण स्वयं लेकर आएँ। रेंज ये उपलब्ध नहीं कराती।</li>
+        <li>शुल्क का भुगतान होने पर ही आपकी लेन पक्की होती है।</li>
+        <li>तारीख या सेशन बदलने के लिए अपने बुकिंग रेफ़रेंस के साथ +91 78691 39088 पर कॉल या WhatsApp करें। नए सेशन में लेन खाली होने पर बदलाव कर दिया जाएगा।</li>
+        <li>बुकिंग रद्द नहीं की जा सकती और प्रैक्टिस शुल्क वापस नहीं किया जाता।</li>
+      </ul>
+      <h3>प्रवेश से पहले</h3>
+      <ul>
+        <li>कृपया जूते बाहर निकालें और रैक में रखें। अंदर केवल शूटिंग जूते पहनने की अनुमति है।</li>
+        <li>अंदर केवल शूटर और 1 कोच जा सकते हैं। माता-पिता कृपया धैर्य रखें और पेरेंट्स लाउंज में प्रतीक्षा करें।</li>
+      </ul>
+      <h3>रेंज में</h3>
+      <ol>
+        <li>रेंज और परिसर में शांति बनाए रखें।</li>
+        <li>दूसरे शूटर को लेन पर या उसके बाहर परेशान न करें।</li>
+        <li>केवल अपनी लेन की कुर्सी पर ही बैठें।</li>
+        <li>अपना बैग और बोतल अपनी कुर्सी के नीचे रखें।</li>
+        <li>रेंज के अंदर किसी भी प्रकार का भोजन या पेय पदार्थ ले जाने की अनुमति नहीं है। रेंज के अंदर भोजन करने पर तत्काल निलंबन होगा।</li>
+        <li>रेंज की संपत्ति को किसी भी तरह की क्षति होने पर क्षति और मरम्मत की पूरी लागत के बराबर जुर्माना लगेगा और रेंज से तत्काल निलंबन होगा।</li>
+        <li>स्कैट और अन्य लैपटॉप का उपयोग केवल रेंज को पहले सूचित करके ही किया जा सकता है।</li>
+        <li>इलेक्ट्रॉनिक टारगेट की रोशनी में बदलाव केवल पूर्व सूचना देकर ही संभव है।</li>
+        <li>सुरक्षा ध्वज (सेफ़्टी फ़्लैग) का उपयोग वैकल्पिक नहीं, अनिवार्य है।</li>
+      </ol>
+    </details>
   </div>
 </section>
 

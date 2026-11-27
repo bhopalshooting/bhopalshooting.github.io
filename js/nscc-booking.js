@@ -283,8 +283,9 @@
     if (b.name.length < 2) return 'Please enter your name.';
     var digits = b.phone.replace(/\D/g, '');
     if (digits.length < 10 || digits.length > 15) return 'Please enter a valid phone number.';
-    if (!b.email) return 'Please enter your email — your confirmation and payment details are sent there.';
+    if (!b.email) return 'Please enter your email — your booking confirmation is sent there. The payment QR comes on WhatsApp.';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)) return 'Please check your email address.';
+    if (form.elements.agree && !form.elements.agree.checked) return 'Please tick the box to accept the range rules (one shooter per booking, bring your own equipment).';
     return '';
   }
 
@@ -337,6 +338,7 @@
       'Phone: ' + b.phone,
       'Email: ' + b.email,
       'Team/State: ' + (b.team || '-'),
+      'Accepted range rules; one shooter; bringing own pistol/rifle, pellets & equipment.',
       '',
       'Note: This booking will be confirmed once the shooter pays Rs ' + CONFIG.FEE + ' to UPI ID ' + CONFIG.UPI_ID + '.',
       'Use reference *' + res.ref + '* in the remarks for the payment.'].join('\n');   // *…* = bold in WhatsApp

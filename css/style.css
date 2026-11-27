@@ -1130,3 +1130,35 @@ table.results td:first-child { font-weight: 600; color: var(--navy); white-space
 .visitor figcaption span { font-size: .84rem; color: var(--ink-soft); }
 @media (max-width: 800px) { .olympians { grid-template-columns: minmax(0, 1fr); } .visitor img { aspect-ratio: 4 / 3.6; } }
 .visitor img { object-position: 50% 0; }
+
+/* NSCC: fee terms, own-equipment note, rules agreement, rules section */
+.nscc-fee { margin: 1.1rem 0 .4rem; font-weight: 700; color: var(--navy); }
+.nscc-fee span { display: block; font-weight: 500; color: var(--ink-soft); font-size: .92rem; margin-top: .2rem; }
+.nscc-own { font-size: .85rem; color: var(--ink-soft); margin: 0 0 1rem; }
+.nscc-agree { display: grid; grid-template-columns: auto 1fr; gap: .65rem; align-items: start; margin: .4rem 0 1rem; font-size: .88rem; color: var(--ink-soft); line-height: 1.45; cursor: pointer; }
+.nscc-agree input { width: 1.15rem; height: 1.15rem; margin-top: .15rem; accent-color: var(--navy); }
+.nscc-agree a { color: var(--navy); font-weight: 700; }
+.nscc-rules h2 { margin-bottom: .2rem; }
+.nscc-rules__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1.5rem; }
+.nscc-rules h3 { font-size: 1.05rem; margin: 1.2rem 0 .5rem; color: var(--navy); }
+.nscc-rules__grid > div > h3:first-child { margin-top: 0; }
+.nscc-rules ul, .nscc-rules ol { margin: 0; padding-left: 1.2rem; color: var(--ink-soft); line-height: 1.55; }
+.nscc-rules li { margin-bottom: .35rem; }
+.nscc-rules__hi { margin-top: 2rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+.nscc-rules__hi summary { cursor: pointer; font-weight: 700; color: var(--navy); }
+@media (max-width: 760px) { .nscc-rules__grid { grid-template-columns: 1fr; gap: 0; } .nscc-rules__grid > div + div > h3:first-child { margin-top: 1.2rem; } }
+.nscc-rulelink { margin: 1rem 0; font-weight: 700; }
+.nscc-rulelink a { color: var(--navy); border-bottom: 2px solid var(--gold); text-decoration: none; }
+.nscc-help b { display: block; color: var(--navy); margin-bottom: .3rem; }
+.nscc-help p { margin: 0 0 .8rem; }
+.nscc-channels { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.nscc-channels li { display: grid; grid-template-columns: 6.2rem 1fr; gap: .6rem; }
+.nscc-channels span { font-weight: 700; color: var(--gold-dim); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; padding-top: .1rem; }
+.nscc-photos { display: grid; grid-template-columns: 2fr 3fr; gap: 1rem; margin: 1.5rem 0 2rem; }
+.nscc-photos figure { margin: 0; }
+.nscc-photos img { width: 100%; height: 300px; object-fit: cover; border-radius: 6px; display: block; }
+.nscc-photos figcaption { font-size: .82rem; color: var(--ink-soft); margin-top: .4rem; }
+@media (max-width: 760px) { .nscc-photos { grid-template-columns: 1fr 1fr; } .nscc-photos img { height: 200px; } }
+.nscc-hintlink { color: var(--navy); font-weight: 700; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 3px; }
+div.nscc-help { margin-top: 1.3rem; }
+.nscc-channels { margin-bottom: .2rem; }

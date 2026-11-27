@@ -248,10 +248,13 @@ function notify_(b) {
          'Session:    ' + label,
          'Lane:       ' + b.lane,
          'Reference:  ' + b.ref, '',
-         'Practice fee: ' + CONFIG.FEE + ' for the 2-hour session.',
+         'Practice fee: ' + CONFIG.FEE + ' per shooter for one 2-hour session (one shooter per booking).',
          'We will send you the payment QR on WhatsApp. If WhatsApp did not open after booking,',
          'message +91 78691 39088 with your reference and we will send it there.', '',
-         'Need to change or cancel? Call or WhatsApp +91 78691 39088 and quote your reference.', '',
+         'Please bring your own air pistol / air rifle, pellets and shooting equipment.',
+         'Range rules: https://bhopalshooting.com/nscc#rules', '',
+         'Rescheduling requests: call or WhatsApp +91 78691 39088 and quote your reference.',
+         'Bookings cannot be cancelled, and the practice fee is not refundable.', '',
          'Bhopal Shooting Range Academy — Aim · Focus · Achieve'].join('\n'),
         { name: 'Bhopal Shooting Range Academy' });
     }
